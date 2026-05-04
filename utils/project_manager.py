@@ -7,7 +7,7 @@
 import json
 import shutil
 import subprocess
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -22,19 +22,73 @@ METADATA_FILENAME = "metadata.json"
 
 
 # ============================================================
+# 빌드 탐색 설정
+# ============================================================
+# 빌드 파일 우선순위 (위에 있을수록 우선)
+BUILD_FILES = {
+    "pom.xml": "maven",
+    "build.gradle.kts": "gradle",
+    "build.gradle": "gradle",
+}
+
+# 탐색 시 스킵할 폴더 (속도 + 노이즈 감소)
+SKIP_DIRS = {
+    # 빌드 결과물
+    "target", "build", "out", "bin", "dist",
+    # 의존성/캐시
+    "node_modules", ".gradle", ".m2",
+    # IDE
+    ".idea", ".vscode", ".settings", ".eclipse",
+    # 기타
+    ".git", ".analysis", "__pycache__",
+    # 테스트 픽스처는 보통 분석 대상 아님
+    "test-fixtures", "fixtures",
+}
+
+# 최대 탐색 깊이 (루트가 0)
+MAX_SCAN_DEPTH = 4
+
+
+# ============================================================
 # 데이터 클래스
 # ============================================================
+@dataclass
+class BuildModule:
+    """단일 빌드 모듈 정보"""
+    relative_path: str          # 프로젝트 루트 기준 상대 경로 ("." or "modules/api")
+    build_tool: str             # maven / gradle
+    build_file: str             # pom.xml / build.gradle / build.gradle.kts
+    java_file_count: int        # 이 모듈 내 .java 파일 개수
+
+
+@dataclass
+class BuildInfo:
+    """프로젝트 전체 빌드 정보 (멀티모듈 포함)"""
+    primary_tool: str                          # maven / gradle / mixed / unknown
+    is_multi_module: bool                      # 모듈 2개 이상이면 True
+    modules: list[BuildModule] = field(default_factory=list)
+
+    @property
+    def summary(self) -> str:
+        """UI 표시용 요약 문자열"""
+        if self.primary_tool == "unknown":
+            return "unknown"
+        if self.is_multi_module:
+            return f"{self.primary_tool} (멀티모듈 {len(self.modules)}개)"
+        return self.primary_tool
+
+
 @dataclass
 class ProjectInfo:
     """프로젝트 정보"""
     name: str                          # 폴더명
     path: str                          # 절대 경로
-    build_tool: str                    # maven / gradle / unknown
+    build_info: BuildInfo              # 빌드 정보 (멀티모듈 포함)
     git_url: Optional[str]             # clone 시 사용한 URL
     cloned_at: str                     # ISO 형식 일시
     analyzed: bool                     # 분석 완료 여부
     analyzed_at: Optional[str]         # 마지막 분석 일시
-    file_count: int                    # .java 파일 개수
+    file_count: int                    # 전체 .java 파일 개수
 
 
 # ============================================================
@@ -47,30 +101,111 @@ def ensure_workspace() -> Path:
 
 
 # ============================================================
-# 프로젝트 감지
+# 빌드 모듈 탐색 (재귀)
 # ============================================================
-def detect_build_tool(project_path: Path) -> str:
-    """빌드 도구 종류 판별"""
-    if (project_path / "pom.xml").exists():
-        return "maven"
-    if (project_path / "build.gradle").exists() or \
-       (project_path / "build.gradle.kts").exists():
-        return "gradle"
-    return "unknown"
+def _find_build_modules(
+    current: Path,
+    project_root: Path,
+    depth: int,
+    found: list[BuildModule],
+) -> None:
+    """현재 디렉토리에서 빌드 파일을 찾고, 없으면 하위로 재귀
+
+    빌드 파일을 찾으면 해당 디렉토리의 하위는 더 안 들어감 (모듈 단위로 인식)
+    """
+    if depth > MAX_SCAN_DEPTH:
+        return
+
+    # 현재 디렉토리에 빌드 파일이 있는지 (우선순위 순으로)
+    for build_file, tool in BUILD_FILES.items():
+        if (current / build_file).exists():
+            relative = current.relative_to(project_root).as_posix()
+            if relative == ".":
+                relative = "."
+            found.append(BuildModule(
+                relative_path=relative,
+                build_tool=tool,
+                build_file=build_file,
+                java_file_count=_count_java_in_dir(current),
+            ))
+            # 빌드 파일을 찾았으면 이 디렉토리 하위는 멀티모듈일 때만 더 탐색
+            # (Maven/Gradle은 보통 자식 모듈도 자체 빌드 파일을 가짐)
+            break  # 같은 폴더의 다른 빌드 파일은 무시
+
+    # 하위 디렉토리 탐색
+    try:
+        for child in current.iterdir():
+            if not child.is_dir():
+                continue
+            if child.name in SKIP_DIRS:
+                continue
+            if child.name.startswith("."):
+                continue
+            _find_build_modules(child, project_root, depth + 1, found)
+    except (PermissionError, OSError):
+        # 권한 문제 등으로 못 읽는 폴더는 그냥 스킵
+        pass
 
 
+def _count_java_in_dir(directory: Path) -> int:
+    """특정 디렉토리 내 .java 파일 개수 (SKIP_DIRS 제외)"""
+    count = 0
+    try:
+        for path in directory.rglob("*.java"):
+            # SKIP_DIRS 안의 파일은 제외
+            if any(part in SKIP_DIRS for part in path.parts):
+                continue
+            count += 1
+    except (PermissionError, OSError):
+        pass
+    return count
+
+
+def detect_build_info(project_path: Path) -> BuildInfo:
+    """프로젝트 빌드 정보 종합 분석 (멀티모듈 지원)"""
+    modules: list[BuildModule] = []
+    _find_build_modules(project_path, project_path, depth=0, found=modules)
+
+    if not modules:
+        return BuildInfo(primary_tool="unknown", is_multi_module=False, modules=[])
+
+    # 주 빌드 도구 결정
+    tools = {m.build_tool for m in modules}
+    if len(tools) == 1:
+        primary = next(iter(tools))
+    else:
+        # maven/gradle 혼합인 경우
+        primary = "mixed"
+
+    # 모듈을 상대 경로 기준 정렬 (루트가 항상 첫번째로 오도록)
+    modules.sort(key=lambda m: (m.relative_path != ".", m.relative_path))
+
+    return BuildInfo(
+        primary_tool=primary,
+        is_multi_module=len(modules) > 1,
+        modules=modules,
+    )
+
+
+# ============================================================
+# Java 프로젝트 판별
+# ============================================================
 def is_java_project(project_path: Path) -> bool:
-    """Java 프로젝트 여부 판별 (빌드 파일 존재 또는 .java 파일 존재)"""
-    if detect_build_tool(project_path) != "unknown":
+    """Java 프로젝트 여부 판별
+
+    1) 빌드 파일이 어딘가 있거나
+    2) .java 파일이 어딘가 있으면 Java 프로젝트로 간주
+    """
+    build_info = detect_build_info(project_path)
+    if build_info.primary_tool != "unknown":
         return True
-    # 빌드 파일 없어도 .java 파일이 있으면 Java 프로젝트로 인정
-    java_files = list(project_path.rglob("*.java"))
-    return len(java_files) > 0
+    # 빌드 파일 없어도 .java 파일이 있으면 인정
+    return _count_java_in_dir(project_path) > 0
 
 
 def count_java_files(project_path: Path) -> int:
-    """프로젝트 내 .java 파일 개수"""
-    return len(list(project_path.rglob("*.java")))
+    """프로젝트 내 .java 파일 총 개수 (SKIP_DIRS 제외)"""
+    return _count_java_in_dir(project_path)
 
 
 # ============================================================
@@ -119,11 +254,12 @@ def scan_projects() -> list[ProjectInfo]:
             continue
 
         metadata = load_metadata(entry) or {}
+        build_info = detect_build_info(entry)
 
         projects.append(ProjectInfo(
             name=entry.name,
             path=str(entry.absolute()),
-            build_tool=detect_build_tool(entry),
+            build_info=build_info,
             git_url=metadata.get("git_url"),
             cloned_at=metadata.get("cloned_at", "unknown"),
             analyzed=metadata.get("analyzed", False),
@@ -180,7 +316,6 @@ def clone_project(git_url: str) -> tuple[bool, str, Optional[ProjectInfo]]:
     except FileNotFoundError:
         return False, "Git이 설치되어 있지 않아요. https://git-scm.com 에서 설치해주세요", None
     except subprocess.TimeoutExpired:
-        # 타임아웃 시 부분 다운로드 정리
         if target_path.exists():
             shutil.rmtree(target_path, ignore_errors=True)
         return False, "Clone 타임아웃 (5분 초과)", None
@@ -188,9 +323,8 @@ def clone_project(git_url: str) -> tuple[bool, str, Optional[ProjectInfo]]:
         return False, f"Clone 중 오류: {e}", None
 
     if not is_java_project(target_path):
-        # Java 프로젝트가 아니면 삭제하고 거부
         shutil.rmtree(target_path, ignore_errors=True)
-        return False, "Java 프로젝트가 아니에요 (pom.xml/build.gradle/.java 파일 없음)", None
+        return False, "Java 프로젝트가 아니에요 (빌드 파일/.java 파일 없음)", None
 
     # 메타데이터 저장
     metadata = {
@@ -201,10 +335,12 @@ def clone_project(git_url: str) -> tuple[bool, str, Optional[ProjectInfo]]:
     }
     save_metadata(target_path, metadata)
 
+    build_info = detect_build_info(target_path)
+
     project_info = ProjectInfo(
         name=repo_name,
         path=str(target_path.absolute()),
-        build_tool=detect_build_tool(target_path),
+        build_info=build_info,
         git_url=git_url,
         cloned_at=metadata["cloned_at"],
         analyzed=False,
@@ -225,7 +361,6 @@ def delete_project(project_name: str) -> tuple[bool, str]:
         return False, "프로젝트가 존재하지 않아요"
 
     try:
-        # Windows에서 .git 폴더 권한 문제 대응
         shutil.rmtree(target_path, ignore_errors=False, onerror=_handle_remove_readonly)
         return True, f"'{project_name}' 삭제 완료"
     except Exception as e:

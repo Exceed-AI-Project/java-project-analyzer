@@ -83,12 +83,23 @@ def render_project_card(project: ProjectInfo) -> None:
 
             # 메타 정보
             meta_cols = st.columns(3)
-            meta_cols[0].caption(f"**빌드** · {project.build_tool}")
+            meta_cols[0].caption(f"**빌드** · {project.build_info.summary}")
             meta_cols[1].caption(f"**Java 파일** · {project.file_count}개")
             meta_cols[2].caption(f"**Clone** · {project.cloned_at[:10]}")
 
             if project.git_url:
                 st.caption(f"🔗 {project.git_url}")
+
+            # 멀티모듈인 경우 모듈 목록 펼쳐보기
+            if project.build_info.is_multi_module:
+                with st.expander(f"📦 모듈 {len(project.build_info.modules)}개 보기"):
+                    for module in project.build_info.modules:
+                        path_label = "🏠 (root)" if module.relative_path == "." \
+                                     else f"📁 {module.relative_path}"
+                        st.caption(
+                            f"{path_label} · {module.build_tool} · "
+                            f"`{module.build_file}` · {module.java_file_count}개 파일"
+                        )
 
         with col_action:
             if st.button(
