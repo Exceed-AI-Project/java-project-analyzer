@@ -3,11 +3,11 @@ Java Refactor Assistant
 """
 import streamlit as st
 
-from pages_.home import render_home
-from pages_.analysis import render_analysis
-from pages_.refactor import render_refactor
-from pages_.dependency_graph import render_dependency_graph
-from pages_.simulator import render_simulator
+from ui.home import render_home
+from ui.analysis import render_analysis
+from ui.refactor import render_refactor
+from ui.dependency_graph import render_dependency_graph
+from ui.simulator import render_simulator
 
 st.set_page_config(
     page_title="Java Refactor Assistant",
@@ -22,6 +22,15 @@ st.markdown("""
 section[data-testid="stSidebar"],
 section[data-testid="stSidebar"] > div:first-child {
     background-color: #13131f !important;
+}
+
+/* ── 사이드바 텍스트 색상 ───────────────────────── */
+section[data-testid="stSidebar"] * {
+    color: #ffffff;
+}
+
+section[data-testid="stSidebar"] .stCaption {
+    color: rgba(255,255,255,0.6) !important;
 }
 
 /* ── 버튼 기본 (비활성) + focus/active/focus-visible 일괄 처리 ── */
