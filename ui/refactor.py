@@ -1,0 +1,56 @@
+import streamlit as st
+import streamlit.components.v1 as components
+from model.dummy_data import _DUMMY_CLASSES, _DUMMY_METHODS
+from service.graph_service import _build_graph_html
+
+
+def render_refactor():
+    st.title("🛠️ 리팩토링 제안")
+    if not st.session_state.selected_project:
+        st.warning("⚠️ 먼저 홈에서 프로젝트를 선택해주세요!")
+        return
+    st.success(f"선택된 프로젝트: **{st.session_state.selected_project}**")
+
+    st.subheader("📌 분석 대상 선택")
+    col_cls, col_mtd = st.columns(2)
+
+    with col_cls:
+        cls_names    = [c["클래스명"] for c in _DUMMY_CLASSES]
+        selected_cls = st.selectbox("클래스 선택", options=cls_names, key="refactor_cls")
+
+    with col_mtd:
+        mtd_names    = [m["메소드명"] for m in _DUMMY_METHODS if m["클래스"] == selected_cls]
+        selected_mtd = st.selectbox(
+            "메소드 선택",
+            options=mtd_names if mtd_names else ["(메소드 없음)"],
+            key="refactor_mtd",
+        )
+
+    st.divider()
+
+    st.subheader("🕸️ 의존성 그래프")
+    st.caption(
+        f"빨간색 노드 = 선택된 클래스 `{selected_cls}` · "
+        "파랑 Controller · 노랑 Service · 초록 Repository · 주황 Model"
+    )
+
+    # TODO: NetworkX + Pyvis 연결 — _build_graph_html 을 실제 분석 결과로 교체
+    graph_html = _build_graph_html(focus_class=selected_cls)
+    components.html(graph_html, height=480, scrolling=False)
+
+    st.download_button(
+        label="⬇️ 그래프 HTML 다운로드",
+        data=graph_html.encode("utf-8"),
+        file_name=f"{st.session_state.selected_project}_{selected_cls}_graph.html",
+        mime="text/html",
+        help="의존성 그래프를 standalone HTML 파일로 저장합니다.",
+    )
+
+    st.divider()
+
+    st.subheader("💡 리팩토링 제안")
+    # TODO: RAG 기반 리팩토링 제안 생성 연결
+    st.info(
+        f"**{selected_cls}.{selected_mtd}** 에 대한 리팩토링 제안은 "
+        "백엔드 연결 후 이 영역에 표시됩니다."
+    )
