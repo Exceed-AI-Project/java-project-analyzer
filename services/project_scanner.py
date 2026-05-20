@@ -1,29 +1,22 @@
-"""
-프로젝트 관리 유틸리티
-- workspace 디렉토리 내 Java 프로젝트 스캔
-- Git clone으로 새 프로젝트 추가
-- 분석 캐시 메타데이터 관리
-"""
-import json
-import shutil
-import subprocess
-from dataclasses import dataclass, field, asdict
-from datetime import datetime
-from pathlib import Path
+'''
+Git repository 스캔, 프로젝트 타입 확인, 빌드 모듈 확인
+
+'''
+
+from models.project import ProjectInfo, BuildModule, BuildInfo
+from utils.workspace import ensure_workspace, save_metadata, WORKSPACE_DIR 
+
 from typing import Optional
+from pathlib import Path
+import subprocess
+from datetime import datetime
+import shutil # window의 shell 명령어를 사용가능하게 해주는 라이브러리
 
 
 # ============================================================
-# 경로 상수
+# 전역 변수
 # ============================================================
-WORKSPACE_DIR = Path(__file__).parent.parent / "workspace"
-ANALYSIS_DIRNAME = ".analysis"
-METADATA_FILENAME = "metadata.json"
 
-
-# ============================================================
-# 빌드 탐색 설정
-# ============================================================
 # 빌드 파일 우선순위 (위에 있을수록 우선)
 BUILD_FILES = {
     "pom.xml": "maven",
@@ -33,71 +26,15 @@ BUILD_FILES = {
 
 # 탐색 시 스킵할 폴더 (속도 + 노이즈 감소)
 SKIP_DIRS = {
-    # 빌드 결과물
-    "target", "build", "out", "bin", "dist",
-    # 의존성/캐시
-    "node_modules", ".gradle", ".m2",
-    # IDE
-    ".idea", ".vscode", ".settings", ".eclipse",
-    # 기타
-    ".git", ".analysis", "__pycache__",
-    # 테스트 픽스처는 보통 분석 대상 아님
-    "test-fixtures", "fixtures",
+    "target", "build", "out", "bin", "dist",     # 빌드 결과물
+    "node_modules", ".gradle", ".m2",            # 의존성/캐시
+    ".idea", ".vscode", ".settings", ".eclipse", # IDE
+    ".git", ".analysis", "__pycache__",          # 기타
+    "test-fixtures", "fixtures",                 # 테스트 픽스처는 보통 분석 대상 아님
 }
+MAX_SCAN_DEPTH = 4 # 최대 탐색 깊이
 
-# 최대 탐색 깊이 (루트가 0)
-MAX_SCAN_DEPTH = 4
-
-
-# ============================================================
-# 데이터 클래스
-# ============================================================
-@dataclass
-class BuildModule:
-    """단일 빌드 모듈 정보"""
-    relative_path: str          # 프로젝트 루트 기준 상대 경로 ("." or "modules/api")
-    build_tool: str             # maven / gradle
-    build_file: str             # pom.xml / build.gradle / build.gradle.kts
-    java_file_count: int        # 이 모듈 내 .java 파일 개수
-
-
-@dataclass
-class BuildInfo:
-    """프로젝트 전체 빌드 정보 (멀티모듈 포함)"""
-    primary_tool: str                          # maven / gradle / mixed / unknown
-    is_multi_module: bool                      # 모듈 2개 이상이면 True
-    modules: list[BuildModule] = field(default_factory=list)
-
-    @property
-    def summary(self) -> str:
-        """UI 표시용 요약 문자열"""
-        if self.primary_tool == "unknown":
-            return "unknown"
-        if self.is_multi_module:
-            return f"{self.primary_tool} (멀티모듈 {len(self.modules)}개)"
-        return self.primary_tool
-
-
-@dataclass
-class ProjectInfo:
-    """프로젝트 정보"""
-    name: str                          # 폴더명
-    path: str                          # 절대 경로
-    build_info: BuildInfo              # 빌드 정보 (멀티모듈 포함)
-    git_url: Optional[str]             # clone 시 사용한 URL
-    cloned_at: str                     # ISO 형식 일시
-    analyzed: bool                     # 분석 완료 여부
-    analyzed_at: Optional[str]         # 마지막 분석 일시
-    file_count: int                    # 전체 .java 파일 개수
-
-
-# ============================================================
-# Workspace 초기화
-# ============================================================
-def ensure_workspace() -> Path:
-    """workspace 디렉토리가 없으면 생성"""
-    WORKSPACE_DIR.mkdir(exist_ok=True)
-    return WORKSPACE_DIR
+GITCLONE_TIMEOUT = 300 # git clone subprocess timeout 시간 지정
 
 
 # ============================================================
@@ -119,7 +56,7 @@ def _find_build_modules(
     # 현재 디렉토리에 빌드 파일이 있는지 (우선순위 순으로)
     for build_file, tool in BUILD_FILES.items():
         if (current / build_file).exists():
-            relative = current.relative_to(project_root).as_posix()
+            relative = current.relative_to(project_root).as_posix() # relative_to: 프로젝트를 기준으로 상대 경로를 구해, as_posix() os별 슬래시 문자열 반환
             if relative == ".":
                 relative = "."
             found.append(BuildModule(
@@ -207,71 +144,6 @@ def count_java_files(project_path: Path) -> int:
     """프로젝트 내 .java 파일 총 개수 (SKIP_DIRS 제외)"""
     return _count_java_in_dir(project_path)
 
-
-# ============================================================
-# 메타데이터 관리
-# ============================================================
-def get_metadata_path(project_path: Path) -> Path:
-    """메타데이터 파일 경로"""
-    return project_path / ANALYSIS_DIRNAME / METADATA_FILENAME
-
-
-def load_metadata(project_path: Path) -> Optional[dict]:
-    """메타데이터 로드 (없으면 None)"""
-    meta_path = get_metadata_path(project_path)
-    if not meta_path.exists():
-        return None
-    try:
-        with open(meta_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except (json.JSONDecodeError, OSError):
-        return None
-
-
-def save_metadata(project_path: Path, metadata: dict) -> None:
-    """메타데이터 저장"""
-    analysis_dir = project_path / ANALYSIS_DIRNAME
-    analysis_dir.mkdir(exist_ok=True)
-    meta_path = analysis_dir / METADATA_FILENAME
-    with open(meta_path, "w", encoding="utf-8") as f:
-        json.dump(metadata, f, ensure_ascii=False, indent=2)
-
-
-# ============================================================
-# 프로젝트 스캔
-# ============================================================
-def scan_projects() -> list[ProjectInfo]:
-    """workspace 내 모든 Java 프로젝트 스캔"""
-    ensure_workspace()
-    projects: list[ProjectInfo] = []
-
-    for entry in WORKSPACE_DIR.iterdir():
-        if not entry.is_dir():
-            continue
-        if entry.name.startswith("."):
-            continue
-        if not is_java_project(entry):
-            continue
-
-        metadata = load_metadata(entry) or {}
-        build_info = detect_build_info(entry)
-
-        projects.append(ProjectInfo(
-            name=entry.name,
-            path=str(entry.absolute()),
-            build_info=build_info,
-            git_url=metadata.get("git_url"),
-            cloned_at=metadata.get("cloned_at", "unknown"),
-            analyzed=metadata.get("analyzed", False),
-            analyzed_at=metadata.get("analyzed_at"),
-            file_count=count_java_files(entry),
-        ))
-
-    # 최근 clone 순 정렬
-    projects.sort(key=lambda p: p.cloned_at, reverse=True)
-    return projects
-
-
 # ============================================================
 # Git Clone
 # ============================================================
@@ -307,17 +179,16 @@ def clone_project(git_url: str) -> tuple[bool, str, Optional[ProjectInfo]]:
             ["git", "clone", git_url, str(target_path)],
             capture_output=True,
             text=True,
-            timeout=300,  # 5분 타임아웃
+            timeout=GITCLONE_TIMEOUT,  # 5분 타임아웃
         )
 
         if result.returncode != 0:
             return False, f"Clone 실패: {result.stderr.strip()}", None
-
     except FileNotFoundError:
         return False, "Git이 설치되어 있지 않아요. https://git-scm.com 에서 설치해주세요", None
     except subprocess.TimeoutExpired:
         if target_path.exists():
-            shutil.rmtree(target_path, ignore_errors=True)
+            shutil.rmtree(target_path, ignore_errors=True) # rmtree: 폴더 통째로 삭제
         return False, "Clone 타임아웃 (5분 초과)", None
     except Exception as e:
         return False, f"Clone 중 오류: {e}", None
@@ -349,27 +220,3 @@ def clone_project(git_url: str) -> tuple[bool, str, Optional[ProjectInfo]]:
     )
 
     return True, f"'{repo_name}' clone 완료!", project_info
-
-
-# ============================================================
-# 프로젝트 삭제
-# ============================================================
-def delete_project(project_name: str) -> tuple[bool, str]:
-    """프로젝트 폴더 통째로 삭제"""
-    target_path = WORKSPACE_DIR / project_name
-    if not target_path.exists():
-        return False, "프로젝트가 존재하지 않아요"
-
-    try:
-        shutil.rmtree(target_path, ignore_errors=False, onerror=_handle_remove_readonly)
-        return True, f"'{project_name}' 삭제 완료"
-    except Exception as e:
-        return False, f"삭제 실패: {e}"
-
-
-def _handle_remove_readonly(func, path, exc_info):
-    """Windows에서 읽기 전용 파일(.git 내부) 삭제 시 권한 변경"""
-    import os
-    import stat
-    os.chmod(path, stat.S_IWRITE)
-    func(path)
