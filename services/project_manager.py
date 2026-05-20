@@ -3,6 +3,7 @@ clone 한 프로젝트(workspace) 관리(프로젝트 스캔, 삭제)
 """
 from models.project import ProjectInfo
 from utils.workspace import ensure_workspace, load_metadata, WORKSPACE_DIR
+from utils.ast_cache import delete_cache
 
 from services.project_scanner import is_java_project, count_java_files, detect_build_info
 import shutil
@@ -51,10 +52,10 @@ def delete_project(project_name: str) -> tuple[bool, str]:
 
     try:
         shutil.rmtree(target_path, ignore_errors=False, onexc=_handle_remove_readonly)
-        return True, f"'{project_name}' 삭제 완료"
     except Exception as e:
         return False, f"삭제 실패: {e}"
-
+    delete_cache(project_name)
+    return True, f"'{project_name}' 삭제 완료"
 
 def _handle_remove_readonly(func, path, exc):
     """Windows에서 읽기 전용 파일(.git 내부) 삭제 시 권한 변경"""

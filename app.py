@@ -53,7 +53,7 @@ with st.sidebar:
         if st.button(
             _item,
             key=f"nav_{_item}",
-            use_container_width=True,
+            width="stretch",
             type="primary" if _active else "secondary"
         ):
             st.session_state.menu = _item
@@ -64,7 +64,7 @@ with st.sidebar:
     st.caption("선택된 프로젝트")
     if st.session_state.selected_project:
         st.success(f"📂 {st.session_state.selected_project}")
-        if st.button("선택 해제", use_container_width=True):
+        if st.button("선택 해제", width="stretch"):
             st.session_state.selected_project = None
             st.rerun()
     else:

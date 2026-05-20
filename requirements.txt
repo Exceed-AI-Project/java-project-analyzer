@@ -2,7 +2,8 @@
 streamlit==1.39.0
  
 # Java AST 파싱
-javalang==0.13.0
+tree-sitter==0.23.2
+tree-sitter-java==0.23.5    
  
 # RAG / Vector Store (FAISS - 윈도우 친화적)
 faiss-cpu==1.9.0

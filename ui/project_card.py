@@ -40,7 +40,7 @@ def render_project_card(project: ProjectInfo) -> None:
             if st.button(
                 "선택 →",
                 key=f"select_{project.name}",
-                use_container_width=True,
+                width="stretch",
                 type="primary",
             ):
                 st.session_state.selected_project = project.name
@@ -50,7 +50,7 @@ def render_project_card(project: ProjectInfo) -> None:
             if st.button(
                 "🗑️ 삭제",
                 key=f"delete_{project.name}",
-                use_container_width=True,
+                width="stretch",
             ):
                 success, msg = delete_project(project.name)
                 if success:
