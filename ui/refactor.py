@@ -2,17 +2,17 @@
 ui/refactor.py — 리팩토링 제안 페이지
 
 흐름:
-    1. 선택된 프로젝트 확인
-    2. 클래스 선택
-    3. 규칙 기반 품질 지표 표시
+    1. 프로젝트 전체 품질 요약 표시
+    2. 문제 클래스 선택
+    3. 선택한 클래스 상세 품질 지표
     4. RAG 기반 AI 리팩토링 제안
 """
 import streamlit as st
 
 from services.refactor_service import (
     analyze_class_quality,
-    get_class_names,
     get_project_summary,
+    ClassQuality,
 )
 from services.rag_service import (
     build_vector_db,
@@ -22,7 +22,76 @@ from services.rag_service import (
 
 
 # ============================================================
-# 품질 지표 렌더링
+# 전체 프로젝트 품질 요약
+# ============================================================
+def _render_project_summary(project_name: str) -> str | None:
+    """전체 품질 요약 표 + 클래스 선택, 선택한 클래스명 반환"""
+    st.subheader("📋 전체 프로젝트 품질 요약")
+
+    with st.spinner("전체 클래스 분석 중..."):
+        summary = get_project_summary(project_name)
+
+    if not summary:
+        st.warning("AST 분석 결과가 없습니다. 먼저 AST 분석을 실행해주세요.")
+        return None
+
+    # 문제 있는 클래스 / 정상 클래스 분리
+    problem_classes = [q for q in summary if not q.is_healthy]
+    healthy_classes = [q for q in summary if q.is_healthy]
+
+    # 요약 메트릭
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("전체 클래스", len(summary))
+    with col2:
+        st.metric("⚠️ 문제 클래스", len(problem_classes), delta_color="inverse")
+    with col3:
+        st.metric("✅ 정상 클래스", len(healthy_classes))
+
+    st.divider()
+
+    # 문제 클래스 표
+    if problem_classes:
+        st.markdown("#### ⚠️ 리팩토링 필요 클래스")
+        rows = []
+        for q in problem_classes:
+            issues = []
+            if q.has_too_many_methods:
+                issues.append(f"메소드 {q.method_count}개")
+            if q.has_too_many_dependencies:
+                issues.append(f"의존성 {q.dependency_count}개")
+            if q.has_method_issues:
+                issues.append(f"파라미터 초과 {len(q.method_issues)}개")
+            rows.append({
+                "클래스명": q.class_name,
+                "계층": q.stereotype,
+                "메소드 수": q.method_count,
+                "의존 클래스 수": q.dependency_count,
+                "파라미터 이슈": len(q.method_issues),
+                "문제 항목": ", ".join(issues),
+            })
+        st.dataframe(rows, hide_index=True, use_container_width=True)
+    else:
+        st.success("✅ 모든 클래스가 정상입니다!")
+
+    st.divider()
+
+    # 클래스 선택
+    st.markdown("#### 🔎 상세 분석할 클래스 선택")
+
+    # 문제 클래스를 위로
+    all_names = [q.class_name for q in problem_classes] + [q.class_name for q in healthy_classes]
+    selected = st.selectbox(
+        "클래스 선택 (⚠️ 표시 = 문제 있음)",
+        options=all_names,
+        format_func=lambda x: f"⚠️ {x}" if x in [q.class_name for q in problem_classes] else f"✅ {x}",
+        key="refactor_class",
+    )
+    return selected
+
+
+# ============================================================
+# 클래스 상세 품질 지표
 # ============================================================
 def _render_quality_metrics(project_name: str, class_name: str) -> None:
     quality = analyze_class_quality(project_name, class_name)
@@ -30,9 +99,8 @@ def _render_quality_metrics(project_name: str, class_name: str) -> None:
         st.error("클래스 분석 결과를 불러올 수 없습니다.")
         return
 
-    st.subheader("📊 품질 지표")
+    st.subheader(f"📊 `{class_name}` 품질 지표")
 
-    # 전체 상태
     if quality.is_healthy:
         st.success("✅ 이 클래스는 전반적으로 양호합니다!")
     else:
@@ -40,49 +108,38 @@ def _render_quality_metrics(project_name: str, class_name: str) -> None:
 
     col1, col2, col3 = st.columns(3)
 
-    # 메소드 수
     with col1:
-        method_color = "inverse" if quality.has_too_many_methods else "normal"
         st.metric(
             label="메소드 수",
             value=quality.method_count,
             delta="권장 7개 이하" if quality.has_too_many_methods else "정상",
-            delta_color=method_color,
+            delta_color="inverse" if quality.has_too_many_methods else "normal",
         )
-
-    # 의존성 수
     with col2:
-        dep_color = "inverse" if quality.has_too_many_dependencies else "normal"
         st.metric(
             label="의존 클래스 수",
             value=quality.dependency_count,
             delta="권장 5개 이하" if quality.has_too_many_dependencies else "정상",
-            delta_color=dep_color,
+            delta_color="inverse" if quality.has_too_many_dependencies else "normal",
         )
-
-    # 파라미터 이슈 수
     with col3:
-        issue_color = "inverse" if quality.has_method_issues else "normal"
         st.metric(
             label="파라미터 이슈",
             value=f"{len(quality.method_issues)}개 메소드",
             delta="파라미터 초과" if quality.has_method_issues else "정상",
-            delta_color=issue_color,
+            delta_color="inverse" if quality.has_method_issues else "normal",
         )
 
-    # 상세 경고
     if quality.has_too_many_methods:
         st.error(
             f"🚨 **God Class 위험**: 메소드가 {quality.method_count}개로 너무 많아요. "
             "책임을 분리해 여러 클래스로 나누는 것을 권장합니다."
         )
-
     if quality.has_too_many_dependencies:
         st.error(
             f"🚨 **높은 결합도**: 의존하는 클래스가 {quality.dependency_count}개로 너무 많아요. "
             "의존성을 줄여 결합도를 낮추는 것을 권장합니다."
         )
-
     if quality.has_method_issues:
         st.warning("⚠️ **파라미터 초과 메소드**")
         for issue in quality.method_issues:
@@ -95,7 +152,6 @@ def _render_quality_metrics(project_name: str, class_name: str) -> None:
 def _render_rag_suggestion(project_name: str, class_name: str) -> None:
     st.subheader("💡 AI 리팩토링 제안")
 
-    # 벡터 DB 구축 여부 확인
     if not is_db_built(project_name):
         st.info("🔧 AI 제안을 받으려면 먼저 벡터 DB를 구축해야 합니다.")
         if st.button("🗄️ 벡터 DB 구축", type="primary"):
@@ -108,7 +164,6 @@ def _render_rag_suggestion(project_name: str, class_name: str) -> None:
                     st.error(f"❌ 벡터 DB 구축 실패: {e}")
         return
 
-    # 제안 생성
     col_btn, col_rebuild = st.columns([3, 1])
     with col_btn:
         generate = st.button("🤖 AI 리팩토링 제안 받기", type="primary")
@@ -142,7 +197,6 @@ def _render_rag_suggestion(project_name: str, class_name: str) -> None:
 def render_refactor():
     st.title("🛠️ 리팩토링 제안")
 
-    # 프로젝트 선택 확인
     if not st.session_state.get("selected_project"):
         st.warning("⚠️ 먼저 홈에서 프로젝트를 선택해주세요!")
         return
@@ -156,24 +210,17 @@ def render_refactor():
     )
     st.write("")
 
-    # 클래스 선택
-    class_names = get_class_names(project_name)
-    if not class_names:
-        st.warning("AST 분석 결과가 없습니다. 먼저 AST 분석을 실행해주세요.")
+    # 1. 전체 품질 요약 + 클래스 선택
+    selected_class = _render_project_summary(project_name)
+    if not selected_class:
         return
-
-    selected_class = st.selectbox(
-        "🔎 분석할 클래스 선택",
-        options=class_names,
-        key="refactor_class",
-    )
 
     st.divider()
 
-    # 품질 지표
+    # 2. 선택한 클래스 상세 품질 지표
     _render_quality_metrics(project_name, selected_class)
 
     st.divider()
 
-    # AI 리팩토링 제안
+    # 3. AI 리팩토링 제안
     _render_rag_suggestion(project_name, selected_class)
