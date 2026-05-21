@@ -1,22 +1,22 @@
 # UI
 streamlit==1.39.0
  
-# Java AST íŒŒì‹±
+# Java AST ÆÄ½Ì
 tree-sitter==0.23.2
 tree-sitter-java==0.23.5    
  
-# RAG / Vector Store (FAISS - ìœˆë„ìš° ì¹œí™”ì )
+# RAG / Vector Store (FAISS - À©µµ¿ì Ä£È­Àû)
 faiss-cpu==1.9.0
 openai==1.54.0
 tiktoken==0.8.0
 numpy==1.26.4
  
-# API ì‹œë®¬ë ˆì´ì…˜
+# API ½Ã¹Ä·¹ÀÌ¼Ç
 fastapi==0.115.0
 uvicorn==0.32.0
 httpx==0.27.2
  
-# ìœ í‹¸
+# À¯Æ¿
 python-dotenv==1.0.1
 pydantic==2.9.2
 pandas==2.2.3

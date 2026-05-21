@@ -1,0 +1,6918 @@
+{
+  "classes": [
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\AiNotebookApplication.java",
+      "name": "AiNotebookApplication",
+      "package": "com.example.ai_notebook",
+      "kind": "class",
+      "stereotype": "unknown",
+      "annotations": [
+        "@EnableAsync",
+        "@SpringBootApplication"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "AiNotebookApplication",
+          "name": "main",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "args",
+              "type": "String[]"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\config\\OpenAiConfig.java",
+      "name": "OpenAiConfig",
+      "package": "com.example.ai_notebook.config",
+      "kind": "class",
+      "stereotype": "config",
+      "annotations": [
+        "@Configuration",
+        "@EnableConfigurationProperties(OpenAiProperties.class)"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "OpenAiConfig",
+          "name": "openAiWebClient",
+          "return_type": "WebClient",
+          "parameters": [
+            {
+              "name": "props",
+              "type": "OpenAiProperties"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@Bean"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\config\\OpenAiProperties.java",
+      "name": "OpenAiProperties",
+      "package": "com.example.ai_notebook.config",
+      "kind": "class",
+      "stereotype": "config",
+      "annotations": [
+        "@Getter",
+        "@Setter",
+        "@ConfigurationProperties(prefix = \"openai\")"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "OpenAiProperties",
+          "name": "setApiKey",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "apiKey",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenAiProperties",
+          "name": "setBaseUrl",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "baseUrl",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenAiProperties",
+          "name": "setModel",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "model",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\config\\SecurityConfig.java",
+      "name": "SecurityConfig",
+      "package": "com.example.ai_notebook.config",
+      "kind": "class",
+      "stereotype": "config",
+      "annotations": [
+        "@Configuration"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "SecurityConfig",
+          "name": "securityFilterChain",
+          "return_type": "SecurityFilterChain",
+          "parameters": [
+            {
+              "name": "http",
+              "type": "HttpSecurity"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@Bean"
+          ]
+        },
+        {
+          "class_name": "SecurityConfig",
+          "name": "corsConfigurationSource",
+          "return_type": "CorsConfigurationSource",
+          "parameters": [],
+          "access": "public",
+          "annotations": [
+            "@Bean"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\config\\WebConfig.java",
+      "name": "WebConfig",
+      "package": "com.example.ai_notebook.config",
+      "kind": "class",
+      "stereotype": "config",
+      "annotations": [
+        "@Configuration"
+      ],
+      "extends": null,
+      "implements": [
+        "WebMvcConfigurer"
+      ],
+      "methods": [
+        {
+          "class_name": "WebConfig",
+          "name": "addViewControllers",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "registry",
+              "type": "ViewControllerRegistry"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@Override"
+          ]
+        },
+        {
+          "class_name": "WebConfig",
+          "name": "addResourceHandlers",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "registry",
+              "type": "ResourceHandlerRegistry"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@Override"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\MainController.java",
+      "name": "MainController",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "class",
+      "stereotype": "controller",
+      "annotations": [
+        "@Controller"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "MainController",
+          "name": "index",
+          "return_type": "String",
+          "parameters": [],
+          "access": "public",
+          "annotations": [
+            "@GetMapping({\"/\", \"/login\", \"/signup\", \"/notes\", \"/notes/**\"})"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\NoteController.java",
+      "name": "NoteController",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "class",
+      "stereotype": "controller",
+      "annotations": [
+        "@RestController",
+        "@RequestMapping(\"/api/notes\")",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "NoteController",
+          "name": "getNote",
+          "return_type": "Map<String,Object>",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/{id}\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "create",
+          "return_type": "NoteEntity",
+          "parameters": [
+            {
+              "name": "dto",
+              "type": "NoteDto"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/create\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "listByUser",
+          "return_type": "List<NoteEntity>",
+          "parameters": [
+            {
+              "name": "userId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/user/{userId}\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "listSources",
+          "return_type": "List<Map<String, String>>",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/{id}/sources\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "addSource",
+          "return_type": "NoteSourceEntity",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            },
+            {
+              "name": "req",
+              "type": "AddSourceReq"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/{id}/sources\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "upload",
+          "return_type": "NoteSourceEntity",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            },
+            {
+              "name": "file",
+              "type": "MultipartFile"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(value = \"/{id}/sources/file\", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "askStructured",
+          "return_type": "Map<String, Object>",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            },
+            {
+              "name": "req",
+              "type": "AskStructuredReq"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/{id}/ask-structured\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "ask",
+          "return_type": "Map<String, Object>",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            },
+            {
+              "name": "q",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/{id}/ask\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "getFileContextForNote",
+          "return_type": "NoteContext",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "NoteController",
+          "name": "linkExisting",
+          "return_type": "NoteSourceEntity",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            },
+            {
+              "name": "safeName",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/{id}/sources/link-existing\")"
+          ]
+        },
+        {
+          "class_name": "NoteController",
+          "name": "summarize",
+          "return_type": "Map<String,Object>",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/{id}/summarize\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\NoteController.java",
+      "name": "AddSourceReq",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "record",
+      "stereotype": "controller",
+      "annotations": [],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\NoteController.java",
+      "name": "NoteContext",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "record",
+      "stereotype": "controller",
+      "annotations": [],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\NoteController.java",
+      "name": "AskStructuredReq",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "record",
+      "stereotype": "controller",
+      "annotations": [],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\RecoController.java",
+      "name": "RecoController",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "class",
+      "stereotype": "controller",
+      "annotations": [
+        "@Slf4j",
+        "@RestController",
+        "@RequestMapping(\"/api/reco\")",
+        "@RequiredArgsConstructor",
+        "@CrossOrigin(origins = {\"http://localhost:5173\",\"http://localhost:5174\"}, allowCredentials = \"true\")"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "RecoController",
+          "name": "recommendVideos",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/videos/{noteId}\")"
+          ]
+        },
+        {
+          "class_name": "RecoController",
+          "name": "recommendVideosByKeyword",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "keyword",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/videos/keyword\")"
+          ]
+        },
+        {
+          "class_name": "RecoController",
+          "name": "recommendVideosGemini",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/videos-gemini/{noteId}\")"
+          ]
+        },
+        {
+          "class_name": "RecoController",
+          "name": "recommendVideosByKeywordGemini",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "keyword",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@GetMapping(\"/videos-gemini/keyword\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\UserController.java",
+      "name": "UserController",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "class",
+      "stereotype": "controller",
+      "annotations": [
+        "@RestController",
+        "@RequestMapping(\"/api/users\")"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "UserController",
+          "name": "signup",
+          "return_type": "UserEntity",
+          "parameters": [
+            {
+              "name": "req",
+              "type": "Map<String, String>"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/signup\")"
+          ]
+        },
+        {
+          "class_name": "UserController",
+          "name": "login",
+          "return_type": "Object",
+          "parameters": [
+            {
+              "name": "req",
+              "type": "Map<String, String>"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/login\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\controller\\VideoController.java",
+      "name": "VideoController",
+      "package": "com.example.ai_notebook.controller",
+      "kind": "class",
+      "stereotype": "controller",
+      "annotations": [
+        "@RestController",
+        "@RequiredArgsConstructor",
+        "@RequestMapping(\"/api/videos\")"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "VideoController",
+          "name": "analyze",
+          "return_type": "ResponseEntity<VideoAnalyzeResponse>",
+          "parameters": [
+            {
+              "name": "url",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@PostMapping(\"/analyze\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\dto\\NoteDto.java",
+      "name": "NoteDto",
+      "package": "com.example.ai_notebook.dto",
+      "kind": "class",
+      "stereotype": "dto",
+      "annotations": [
+        "@Getter",
+        "@Setter"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\dto\\RecoItemDTO.java",
+      "name": "RecoItemDTO",
+      "package": "com.example.ai_notebook.dto",
+      "kind": "class",
+      "stereotype": "dto",
+      "annotations": [
+        "@Getter",
+        "@Setter",
+        "@NoArgsConstructor",
+        "@AllArgsConstructor",
+        "@Builder"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\dto\\VideoAnalyzeRequest.java",
+      "name": "VideoAnalyzeRequest",
+      "package": "com.example.ai_notebook.dto",
+      "kind": "class",
+      "stereotype": "dto",
+      "annotations": [
+        "@Getter",
+        "@Setter"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\dto\\VideoAnalyzeResponse.java",
+      "name": "VideoAnalyzeResponse",
+      "package": "com.example.ai_notebook.dto",
+      "kind": "class",
+      "stereotype": "dto",
+      "annotations": [
+        "@Getter",
+        "@AllArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\dto\\VideoDto.java",
+      "name": "VideoDto",
+      "package": "com.example.ai_notebook.dto",
+      "kind": "class",
+      "stereotype": "dto",
+      "annotations": [
+        "@Getter",
+        "@Setter"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\entity\\NoteEntity.java",
+      "name": "NoteEntity",
+      "package": "com.example.ai_notebook.entity",
+      "kind": "class",
+      "stereotype": "entity",
+      "annotations": [
+        "@Entity",
+        "@Table(name=\"notes\")",
+        "@Getter",
+        "@Setter"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\entity\\NoteSectionEntity.java",
+      "name": "NoteSectionEntity",
+      "package": "com.example.ai_notebook.entity",
+      "kind": "class",
+      "stereotype": "entity",
+      "annotations": [
+        "@Entity",
+        "@Table(name=\"note_sections\")",
+        "@Getter",
+        "@Setter"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\entity\\NoteSourceEntity.java",
+      "name": "NoteSourceEntity",
+      "package": "com.example.ai_notebook.entity",
+      "kind": "class",
+      "stereotype": "entity",
+      "annotations": [
+        "@Entity",
+        "@Table(name = \"note_sources\")",
+        "@Getter",
+        "@Setter"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\entity\\SourceType.java",
+      "name": "SourceType",
+      "package": "com.example.ai_notebook.entity",
+      "kind": "enum",
+      "stereotype": "entity",
+      "annotations": [],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\entity\\UserEntity.java",
+      "name": "UserEntity",
+      "package": "com.example.ai_notebook.entity",
+      "kind": "class",
+      "stereotype": "entity",
+      "annotations": [
+        "@Entity",
+        "@Table(name = \"users\")",
+        "@Getter",
+        "@Setter",
+        "@NoArgsConstructor",
+        "@AllArgsConstructor",
+        "@Builder"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\entity\\VideoEntity.java",
+      "name": "VideoEntity",
+      "package": "com.example.ai_notebook.entity",
+      "kind": "class",
+      "stereotype": "entity",
+      "annotations": [
+        "@Getter",
+        "@Setter",
+        "@Entity",
+        "@Table(name = \"videos\")"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\repository\\NoteRepository.java",
+      "name": "NoteRepository",
+      "package": "com.example.ai_notebook.repository",
+      "kind": "interface",
+      "stereotype": "repository",
+      "annotations": [],
+      "extends": null,
+      "implements": [
+        "JpaRepository<NoteEntity, Long>"
+      ],
+      "methods": [
+        {
+          "class_name": "NoteRepository",
+          "name": "findByUserId",
+          "return_type": "List<NoteEntity>",
+          "parameters": [
+            {
+              "name": "userId",
+              "type": "Long"
+            }
+          ],
+          "access": "package",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\repository\\NoteSectionRepository.java",
+      "name": "NoteSectionRepository",
+      "package": "com.example.ai_notebook.repository",
+      "kind": "interface",
+      "stereotype": "repository",
+      "annotations": [],
+      "extends": null,
+      "implements": [
+        "JpaRepository<NoteSectionEntity, Long>"
+      ],
+      "methods": [
+        {
+          "class_name": "NoteSectionRepository",
+          "name": "findByNoteIdOrderByOrdIdxAsc",
+          "return_type": "List<NoteSectionEntity>",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "package",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\repository\\NoteSourceRepository.java",
+      "name": "NoteSourceRepository",
+      "package": "com.example.ai_notebook.repository",
+      "kind": "interface",
+      "stereotype": "repository",
+      "annotations": [],
+      "extends": null,
+      "implements": [
+        "JpaRepository<NoteSourceEntity, Long>"
+      ],
+      "methods": [
+        {
+          "class_name": "NoteSourceRepository",
+          "name": "findByNoteId",
+          "return_type": "List<NoteSourceEntity>",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "package",
+          "annotations": []
+        },
+        {
+          "class_name": "NoteSourceRepository",
+          "name": "findByNoteIdOrderByIdDesc",
+          "return_type": "List<NoteSourceEntity>",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "package",
+          "annotations": [
+            "@Query(\"SELECT s FROM NoteSourceEntity s WHERE s.note.id = :noteId ORDER BY s.id DESC\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\repository\\UserRepository.java",
+      "name": "UserRepository",
+      "package": "com.example.ai_notebook.repository",
+      "kind": "interface",
+      "stereotype": "repository",
+      "annotations": [],
+      "extends": null,
+      "implements": [
+        "JpaRepository<UserEntity, Long>"
+      ],
+      "methods": [
+        {
+          "class_name": "UserRepository",
+          "name": "findByUsername",
+          "return_type": "Optional<UserEntity>",
+          "parameters": [
+            {
+              "name": "username",
+              "type": "String"
+            }
+          ],
+          "access": "package",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\repository\\VideoRepository.java",
+      "name": "VideoRepository",
+      "package": "com.example.ai_notebook.repository",
+      "kind": "interface",
+      "stereotype": "repository",
+      "annotations": [],
+      "extends": null,
+      "implements": [
+        "JpaRepository<VideoEntity, Long>"
+      ],
+      "methods": [
+        {
+          "class_name": "VideoRepository",
+          "name": "findByYoutubeId",
+          "return_type": "Optional<VideoEntity>",
+          "parameters": [
+            {
+              "name": "youtubeId",
+              "type": "String"
+            }
+          ],
+          "access": "package",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\GeminiRerankService.java",
+      "name": "GeminiRerankService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "GeminiRerankService",
+          "name": "normalizeToQuery",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "text",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "GeminiRerankService",
+          "name": "generateQuery",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "noteBody",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "GeminiRerankService",
+          "name": "rerank",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "noteContext",
+              "type": "String"
+            },
+            {
+              "name": "candidates",
+              "type": "List<RecoItemDTO>"
+            },
+            {
+              "name": "take",
+              "type": "int"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "GeminiRerankService",
+          "name": "tryDouble",
+          "return_type": "Double",
+          "parameters": [
+            {
+              "name": "o",
+              "type": "Object"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "GeminiRerankService",
+          "name": "callGemini",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "prompt",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "GeminiRerankService",
+          "name": "normalizeToJson",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "text",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\NoteContentService.java",
+      "name": "NoteContentService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "NoteContentService",
+          "name": "buildContext",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "NoteContentService",
+          "name": "safe",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "s",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "NoteContentService",
+          "name": "stripHtml",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "html",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "NoteContentService",
+          "name": "buildPieces",
+          "return_type": "NoteContextPieces",
+          "parameters": [
+            {
+              "name": "noteId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\NoteContentService.java",
+      "name": "NoteContextPieces",
+      "package": "com.example.ai_notebook.service",
+      "kind": "record",
+      "stereotype": "service",
+      "annotations": [],
+      "extends": null,
+      "implements": [],
+      "methods": []
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\NoteService.java",
+      "name": "NoteService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Slf4j",
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "NoteService",
+          "name": "createNote",
+          "return_type": "NoteEntity",
+          "parameters": [
+            {
+              "name": "dto",
+              "type": "NoteDto"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@Transactional"
+          ]
+        },
+        {
+          "class_name": "NoteService",
+          "name": "getNotesByUser",
+          "return_type": "List<NoteEntity>",
+          "parameters": [
+            {
+              "name": "userId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "NoteService",
+          "name": "extractFileName",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "filePath",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\NotionService.java",
+      "name": "NotionService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "NotionService",
+          "name": "fetchPlainText",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "pageId",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\OpenaiRerankService.java",
+      "name": "OpenaiRerankService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "OpenaiRerankService",
+          "name": "generateQuery",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "noteBody",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenaiRerankService",
+          "name": "rerank",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "noteContext",
+              "type": "String"
+            },
+            {
+              "name": "candidates",
+              "type": "List<RecoItemDTO>"
+            },
+            {
+              "name": "take",
+              "type": "int"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenaiRerankService",
+          "name": "tryDouble",
+          "return_type": "Double",
+          "parameters": [
+            {
+              "name": "o",
+              "type": "Object"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenaiRerankService",
+          "name": "callOpenai",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "prompt",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenaiRerankService",
+          "name": "normalizeToQuery",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "text",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenaiRerankService",
+          "name": "normalizeToJson",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "text",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\OpenAiService.java",
+      "name": "OpenAiService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Service"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "OpenAiService",
+          "name": "uploadFile",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "path",
+              "type": "Path"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenAiService",
+          "name": "askWithContext",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "question",
+              "type": "String"
+            },
+            {
+              "name": "context",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenAiService",
+          "name": "extractOutputText",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "resp",
+              "type": "Map<?,?>"
+            }
+          ],
+          "access": "private",
+          "annotations": [
+            "@SuppressWarnings(\"unchecked\")"
+          ]
+        },
+        {
+          "class_name": "OpenAiService",
+          "name": "askWithPromptTemplate",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "role",
+              "type": "String"
+            },
+            {
+              "name": "task",
+              "type": "String"
+            },
+            {
+              "name": "context",
+              "type": "String"
+            },
+            {
+              "name": "format",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "OpenAiService",
+          "name": "logTokenUsage",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "resp",
+              "type": "Map<?, ?>"
+            }
+          ],
+          "access": "private",
+          "annotations": [
+            "@SuppressWarnings(\"unchecked\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\SourceProcessingService.java",
+      "name": "SourceProcessingService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Slf4j",
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "SourceProcessingService",
+          "name": "processAndSaveContent",
+          "return_type": "void",
+          "parameters": [
+            {
+              "name": "sourceId",
+              "type": "Long"
+            }
+          ],
+          "access": "public",
+          "annotations": [
+            "@Async",
+            "@Transactional"
+          ]
+        },
+        {
+          "class_name": "SourceProcessingService",
+          "name": "cleanExtractedText",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "text",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\SummarizeService.java",
+      "name": "SummarizeService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "SummarizeService",
+          "name": "summarize",
+          "return_type": "List<NoteSectionEntity>",
+          "parameters": [
+            {
+              "name": "note",
+              "type": "NoteEntity"
+            },
+            {
+              "name": "fullText",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\UserService.java",
+      "name": "UserService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Service"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "UserService",
+          "name": "register",
+          "return_type": "UserEntity",
+          "parameters": [
+            {
+              "name": "username",
+              "type": "String"
+            },
+            {
+              "name": "password",
+              "type": "String"
+            },
+            {
+              "name": "email",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "UserService",
+          "name": "login",
+          "return_type": "Optional<UserEntity>",
+          "parameters": [
+            {
+              "name": "username",
+              "type": "String"
+            },
+            {
+              "name": "password",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\VideoService.java",
+      "name": "VideoService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Slf4j",
+        "@Service"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "VideoService",
+          "name": "initClient",
+          "return_type": "void",
+          "parameters": [],
+          "access": "public",
+          "annotations": [
+            "@jakarta.annotation.PostConstruct"
+          ]
+        },
+        {
+          "class_name": "VideoService",
+          "name": "analyzeVideo",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "videoTitle",
+              "type": "String"
+            },
+            {
+              "name": "fullTranscript",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "VideoService",
+          "name": "extractText",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "response",
+              "type": "Map"
+            }
+          ],
+          "access": "private",
+          "annotations": [
+            "@SuppressWarnings(\"unchecked\")"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\YoutubeApiClient.java",
+      "name": "YoutubeApiClient",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "component",
+      "annotations": [
+        "@Component"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "YoutubeApiClient",
+          "name": "buildYoutubeService",
+          "return_type": "YouTube",
+          "parameters": [],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "YoutubeApiClient",
+          "name": "getVideoTitle",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "videoId",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "YoutubeApiClient",
+          "name": "getTranscript",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "videoId",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "YoutubeApiClient",
+          "name": "parseSbvToPlainText",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "sbvContent",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\YouTubeDataService.java",
+      "name": "YouTubeDataService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Slf4j",
+        "@Service"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "YouTubeDataService",
+          "name": "extractVideoId",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "url",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "YouTubeDataService",
+          "name": "fetchTitle",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "videoId",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "YouTubeDataService",
+          "name": "fetchTranscript",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "url",
+              "type": "String"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\service\\YoutubeSearchService.java",
+      "name": "YoutubeSearchService",
+      "package": "com.example.ai_notebook.service",
+      "kind": "class",
+      "stereotype": "service",
+      "annotations": [
+        "@Slf4j",
+        "@Service",
+        "@RequiredArgsConstructor"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "YoutubeSearchService",
+          "name": "searchTopSmart",
+          "return_type": "List<RecoItemDTO>",
+          "parameters": [
+            {
+              "name": "smartQuery",
+              "type": "String"
+            },
+            {
+              "name": "max",
+              "type": "int"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "YoutubeSearchService",
+          "name": "isKorean",
+          "return_type": "boolean",
+          "parameters": [
+            {
+              "name": "s",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        },
+        {
+          "class_name": "YoutubeSearchService",
+          "name": "isoDurationToSec",
+          "return_type": "Integer",
+          "parameters": [
+            {
+              "name": "iso",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\main\\java\\com\\example\\ai_notebook\\util\\QueryUtil.java",
+      "name": "QueryUtil",
+      "package": "com.example.ai_notebook.util",
+      "kind": "class",
+      "stereotype": "unknown",
+      "annotations": [],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "QueryUtil",
+          "name": "extractCompactQuery",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "title",
+              "type": "String"
+            },
+            {
+              "name": "filenamesCsv",
+              "type": "String"
+            },
+            {
+              "name": "body",
+              "type": "String"
+            },
+            {
+              "name": "maxTerms",
+              "type": "int"
+            }
+          ],
+          "access": "public",
+          "annotations": []
+        },
+        {
+          "class_name": "QueryUtil",
+          "name": "nullToEmpty",
+          "return_type": "String",
+          "parameters": [
+            {
+              "name": "s",
+              "type": "String"
+            }
+          ],
+          "access": "private",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\4학년1학기자료\\고급 인공지능\\java-project-analyzer\\workspace\\AINoteBook\\src\\test\\java\\com\\example\\ai_notebook\\AiNotebookApplicationTests.java",
+      "name": "AiNotebookApplicationTests",
+      "package": "com.example.ai_notebook",
+      "kind": "class",
+      "stereotype": "test",
+      "annotations": [
+        "@SpringBootTest"
+      ],
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "class_name": "AiNotebookApplicationTests",
+          "name": "contextLoads",
+          "return_type": "void",
+          "parameters": [],
+          "access": "package",
+          "annotations": [
+            "@Test"
+          ]
+        }
+      ]
+    }
+  ],
+  "call_edges": [
+    {
+      "caller_class": "AiNotebookApplication",
+      "caller_method": "main",
+      "callee_class": "SpringApplication",
+      "callee_method": "run",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "h",
+      "callee_method": "add",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "h",
+      "callee_method": "setBearerAuth",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "OpenAiProperties",
+      "callee_method": "getApiKey",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "OpenAiProperties",
+      "callee_method": "getBaseUrl",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "WebClient",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "c",
+      "callee_method": "defaultCodecs",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiConfig",
+      "caller_method": "openAiWebClient",
+      "callee_class": "ExchangeStrategies",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "securityFilterChain",
+      "callee_class": "HttpSecurity",
+      "callee_method": "build",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "securityFilterChain",
+      "callee_class": "auth",
+      "callee_method": "requestMatchers",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "securityFilterChain",
+      "callee_class": "Customizer",
+      "callee_method": "withDefaults",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "securityFilterChain",
+      "callee_class": "HttpSecurity",
+      "callee_method": "csrf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "securityFilterChain",
+      "callee_class": "csrf",
+      "callee_method": "disable",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "UrlBasedCorsConfigurationSource",
+      "callee_method": "registerCorsConfiguration",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "CorsConfiguration",
+      "callee_method": "setAllowCredentials",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "CorsConfiguration",
+      "callee_method": "setAllowedHeaders",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "CorsConfiguration",
+      "callee_method": "setAllowedMethods",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "CorsConfiguration",
+      "callee_method": "setAllowedOrigins",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SecurityConfig",
+      "caller_method": "corsConfigurationSource",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "WebConfig",
+      "caller_method": "addViewControllers",
+      "callee_class": "ViewControllerRegistry",
+      "callee_method": "addViewController",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "WebConfig",
+      "caller_method": "addResourceHandlers",
+      "callee_class": "ResourceHandlerRegistry",
+      "callee_method": "addResourceHandler",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "WebConfig",
+      "caller_method": "addResourceHandlers",
+      "callee_class": "ResourceHandlerRegistry",
+      "callee_method": "addResourceHandler",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getNote",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getNote",
+      "callee_class": "var",
+      "callee_method": "getColor",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getNote",
+      "callee_class": "var",
+      "callee_method": "getTitle",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getNote",
+      "callee_class": "var",
+      "callee_method": "getId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getNote",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "create",
+      "callee_class": "NoteService",
+      "callee_method": "createNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listByUser",
+      "callee_class": "NoteService",
+      "callee_method": "getNotesByUser",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "s",
+      "callee_method": "getOpenaiFileId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "s",
+      "callee_method": "getOpenaiFileId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "s",
+      "callee_method": "getType",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "s",
+      "callee_method": "getValue",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "s",
+      "callee_method": "getName",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "listSources",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findByNoteId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "SourceProcessingService",
+      "callee_method": "processAndSaveContent",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "save",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "var",
+      "callee_method": "setValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "AddSourceReq",
+      "callee_method": "value",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "var",
+      "callee_method": "setName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "AddSourceReq",
+      "callee_method": "name",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "var",
+      "callee_method": "setType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "SourceType",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "AddSourceReq",
+      "callee_method": "type",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "var",
+      "callee_method": "setNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "addSource",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "SourceProcessingService",
+      "callee_method": "processAndSaveContent",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "save",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "var",
+      "callee_method": "setOpenaiFileId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "var",
+      "callee_method": "setValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "var",
+      "callee_method": "setName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "var",
+      "callee_method": "setType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "var",
+      "callee_method": "setNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "MultipartFile",
+      "callee_method": "getInputStream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "var",
+      "callee_method": "resolve",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "Objects",
+      "callee_method": "requireNonNullElse",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "MultipartFile",
+      "callee_method": "getOriginalFilename",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "String",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "upload",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "NoteContext",
+      "callee_method": "fileCount",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "OpenAiService",
+      "callee_method": "askWithPromptTemplate",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "AskStructuredReq",
+      "callee_method": "format",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "NoteContext",
+      "callee_method": "context",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "AskStructuredReq",
+      "callee_method": "task",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "AskStructuredReq",
+      "callee_method": "role",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "NoteContext",
+      "callee_method": "hasFiles",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "askStructured",
+      "callee_class": "NoteController",
+      "callee_method": "getFileContextForNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "NoteContext",
+      "callee_method": "fileCount",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "OpenAiService",
+      "callee_method": "askWithContext",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "NoteContext",
+      "callee_method": "context",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "NoteContext",
+      "callee_method": "fileCount",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "NoteContext",
+      "callee_method": "context",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "NoteContext",
+      "callee_method": "hasFiles",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "ask",
+      "callee_class": "NoteController",
+      "callee_method": "getFileContextForNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "StringBuilder",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "s",
+      "callee_method": "getName",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "s",
+      "callee_method": "getName",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "s",
+      "callee_method": "getProcessedTextContent",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "var",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "s",
+      "callee_method": "getType",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "getFileContextForNote",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findByNoteId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "save",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "setOpenaiFileId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "setValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "setName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "setType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "setNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "isPresent",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "var",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "s",
+      "callee_method": "getValue",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findByNoteId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "String",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "linkExisting",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "s",
+      "callee_method": "getBody",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "s",
+      "callee_method": "getH2",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "NoteSectionRepository",
+      "callee_method": "saveAll",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "NoteSectionRepository",
+      "callee_method": "deleteAll",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "NoteSectionRepository",
+      "callee_method": "findByNoteIdOrderByOrdIdxAsc",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "SummarizeService",
+      "callee_method": "summarize",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "s",
+      "callee_method": "getValue",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "s",
+      "callee_method": "getType",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "Paths",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "s",
+      "callee_method": "getValue",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "s",
+      "callee_method": "getType",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findByNoteId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteController",
+      "caller_method": "summarize",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "rerank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "var",
+      "callee_method": "prettyContext",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "searchTopSmart",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "generateQuery",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "var",
+      "callee_method": "body",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "var",
+      "callee_method": "prettyContext",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideos",
+      "callee_class": "NoteContentService",
+      "callee_method": "buildPieces",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "rerank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "searchTopSmart",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeyword",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "rerank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "var",
+      "callee_method": "prettyContext",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "searchTopSmart",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "generateQuery",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "var",
+      "callee_method": "body",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosGemini",
+      "callee_class": "NoteContentService",
+      "callee_method": "buildPieces",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "rerank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "var",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "searchTopSmart",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "RecoController",
+      "caller_method": "recommendVideosByKeywordGemini",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "signup",
+      "callee_class": "UserService",
+      "callee_method": "register",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "signup",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "signup",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "signup",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "login",
+      "callee_class": "Optional",
+      "callee_method": "orElse",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "login",
+      "callee_class": "UserService",
+      "callee_method": "login",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "login",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserController",
+      "caller_method": "login",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "ResponseEntity",
+      "callee_method": "internalServerError",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "ResponseEntity",
+      "callee_method": "ok",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "VideoService",
+      "callee_method": "analyzeVideo",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "YouTubeDataService",
+      "callee_method": "fetchTranscript",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "YouTubeDataService",
+      "callee_method": "fetchTitle",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "YouTubeDataService",
+      "callee_method": "extractVideoId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "ResponseEntity",
+      "callee_method": "badRequest",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoController",
+      "caller_method": "analyze",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "replace",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "contains",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "replace",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "startsWith",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "trim",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "normalizeToQuery",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "callGemini",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Math",
+      "callee_method": "max",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Comparator",
+      "callee_method": "comparing",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "forEach",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setTargetLevel",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Objects",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setReason",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Objects",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "tryDouble",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "String",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "ObjectMapper",
+      "callee_method": "readValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "normalizeToJson",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "GeminiRerankService",
+      "callee_method": "callGemini",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "ObjectMapper",
+      "callee_method": "writeValueAsString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getViewCount",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getDurationSec",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getChannelTitle",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getTitle",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "tryDouble",
+      "callee_class": "Double",
+      "callee_method": "parseDouble",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "tryDouble",
+      "callee_class": "String",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "ex",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "Objects",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "var",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "var",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "WebClient",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "callGemini",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "startsWith",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "GeminiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "trim",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "Collectors",
+      "callee_method": "joining",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "s",
+      "callee_method": "getName",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "List",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findByNoteIdOrderByIdDesc",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "Collectors",
+      "callee_method": "joining",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "s",
+      "callee_method": "getBody",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "List",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteSectionRepository",
+      "callee_method": "findByNoteIdOrderByOrdIdxAsc",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteEntity",
+      "callee_method": "getTitle",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildContext",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "stripHtml",
+      "callee_class": "String",
+      "callee_method": "replaceAll",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "Collectors",
+      "callee_method": "joining",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "s",
+      "callee_method": "isBlank",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "s",
+      "callee_method": "getProcessedTextContent",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "var",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "Collectors",
+      "callee_method": "joining",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "s",
+      "callee_method": "getName",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "var",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findByNoteIdOrderByIdDesc",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "Collectors",
+      "callee_method": "joining",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "s",
+      "callee_method": "getBody",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "var",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteSectionRepository",
+      "callee_method": "findByNoteIdOrderByOrdIdxAsc",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteContentService",
+      "callee_method": "safe",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "var",
+      "callee_method": "getTitle",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteContentService",
+      "caller_method": "buildPieces",
+      "callee_class": "NoteRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "SourceProcessingService",
+      "callee_method": "processAndSaveContent",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "savedSource",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "savedSource",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "getSources",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "getSources",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "getId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteRepository",
+      "callee_method": "save",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "setSources",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteService",
+      "callee_method": "extractFileName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "srcValue",
+      "callee_method": "startsWith",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "srcValue",
+      "callee_method": "startsWith",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteDto",
+      "callee_method": "getSources",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteDto",
+      "callee_method": "getSources",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "setUser",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "setColor",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteDto",
+      "callee_method": "getColor",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteEntity",
+      "callee_method": "setTitle",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteDto",
+      "callee_method": "getTitle",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "UserRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "createNote",
+      "callee_class": "NoteDto",
+      "callee_method": "getUserId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "getNotesByUser",
+      "callee_class": "NoteRepository",
+      "callee_method": "findByUserId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "extractFileName",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "extractFileName",
+      "callee_class": "Math",
+      "callee_method": "max",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "extractFileName",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "NoteService",
+      "caller_method": "extractFileName",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "normalizeToQuery",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "callOpenai",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "generateQuery",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Math",
+      "callee_method": "max",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Comparator",
+      "callee_method": "comparing",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "forEach",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setTargetLevel",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Objects",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setReason",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Objects",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "setScore",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "tryDouble",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "String",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "ObjectMapper",
+      "callee_method": "readValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "normalizeToJson",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "OpenaiRerankService",
+      "callee_method": "callOpenai",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "ObjectMapper",
+      "callee_method": "writeValueAsString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getViewCount",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getDurationSec",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getChannelTitle",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getTitle",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "Map",
+      "callee_method": "put",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "v",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "rerank",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "tryDouble",
+      "callee_class": "Double",
+      "callee_method": "parseDouble",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "tryDouble",
+      "callee_class": "String",
+      "callee_method": "valueOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "ex",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "Objects",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "var",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "var",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "var",
+      "callee_method": "getOrDefault",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "WebClient",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "callOpenai",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "replace",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "contains",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "replace",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "startsWith",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToQuery",
+      "callee_class": "String",
+      "callee_method": "trim",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "lastIndexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "indexOf",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "startsWith",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenaiRerankService",
+      "caller_method": "normalizeToJson",
+      "callee_class": "String",
+      "callee_method": "trim",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "JsonNode",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "ObjectMapper",
+      "callee_method": "readTree",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "HttpResponse",
+      "callee_method": "body",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "HttpResponse",
+      "callee_method": "body",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "HttpResponse",
+      "callee_method": "statusCode",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "HttpResponse",
+      "callee_method": "statusCode",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "HttpClient",
+      "callee_method": "newHttpClient",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "String",
+      "callee_method": "getBytes",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "String",
+      "callee_method": "getBytes",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "URI",
+      "callee_method": "create",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "HttpRequest",
+      "callee_method": "newBuilder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "Path",
+      "callee_method": "getFileName",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "UUID",
+      "callee_method": "randomUUID",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "uploadFile",
+      "callee_class": "Files",
+      "callee_method": "readAllBytes",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Logger",
+      "callee_method": "error",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getResponseBodyAsString",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getStatusText",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getRawStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Logger",
+      "callee_method": "warn",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getResponseBodyAsString",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getStatusText",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "e",
+      "callee_method": "getRawStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "OpenAiService",
+      "callee_method": "extractOutputText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "OpenAiService",
+      "callee_method": "logTokenUsage",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "WebClient",
+      "callee_method": "post",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithContext",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "Map",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "s2",
+      "callee_method": "isBlank",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "mC0",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "cList",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "cList",
+      "callee_method": "isEmpty",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "m0",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "outList",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "outList",
+      "callee_method": "isEmpty",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "s",
+      "callee_method": "isBlank",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "extractOutputText",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Logger",
+      "callee_method": "error",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getResponseBodyAsString",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getStatusText",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getRawStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Logger",
+      "callee_method": "warn",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getResponseBodyAsString",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getStatusText",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "e",
+      "callee_method": "getRawStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "OpenAiService",
+      "callee_method": "extractOutputText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "OpenAiService",
+      "callee_method": "logTokenUsage",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "WebClient",
+      "callee_method": "post",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "askWithPromptTemplate",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "Logger",
+      "callee_method": "warn",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "Map",
+      "callee_method": "keySet",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "Logger",
+      "callee_method": "info",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "usageMap",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "usageMap",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "usageMap",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "usageMap",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "usageMap",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "OpenAiService",
+      "caller_method": "logTokenUsage",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setProcessedTextContent",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "error",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setProcessedTextContent",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "warn",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "warn",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "setOpenaiFileId",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "OpenAiService",
+      "callee_method": "uploadFile",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "SourceProcessingService",
+      "callee_method": "cleanExtractedText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "Files",
+      "callee_method": "readString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "var",
+      "callee_method": "getText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "PDDocument",
+      "callee_method": "load",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "Path",
+      "callee_method": "toFile",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "String",
+      "callee_method": "toLowerCase",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "Files",
+      "callee_method": "exists",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "Paths",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "Paths",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getNote",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "SourceProcessingService",
+      "callee_method": "cleanExtractedText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getValue",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceEntity",
+      "callee_method": "getType",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "log",
+      "callee_method": "warn",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "processAndSaveContent",
+      "callee_class": "NoteSourceRepository",
+      "callee_method": "findById",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "cleanExtractedText",
+      "callee_class": "String",
+      "callee_method": "replaceAll",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SourceProcessingService",
+      "caller_method": "cleanExtractedText",
+      "callee_class": "String",
+      "callee_method": "replaceAll",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SummarizeService",
+      "caller_method": "summarize",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SummarizeService",
+      "caller_method": "summarize",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SummarizeService",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "setBody",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SummarizeService",
+      "caller_method": "summarize",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SummarizeService",
+      "caller_method": "summarize",
+      "callee_class": "var",
+      "callee_method": "setH2",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "SummarizeService",
+      "caller_method": "summarize",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserService",
+      "caller_method": "register",
+      "callee_class": "UserRepository",
+      "callee_method": "save",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserService",
+      "caller_method": "register",
+      "callee_class": "UserEntity",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserService",
+      "caller_method": "register",
+      "callee_class": "BCryptPasswordEncoder",
+      "callee_method": "encode",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserService",
+      "caller_method": "login",
+      "callee_class": "BCryptPasswordEncoder",
+      "callee_method": "matches",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "UserService",
+      "caller_method": "login",
+      "callee_class": "u",
+      "callee_method": "getPassword",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "UserService",
+      "caller_method": "login",
+      "callee_class": "UserRepository",
+      "callee_method": "findByUsername",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "initClient",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "initClient",
+      "callee_class": "WebClient",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "log",
+      "callee_method": "error",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "e",
+      "callee_method": "getStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "log",
+      "callee_method": "error",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "e",
+      "callee_method": "getResponseBodyAsString",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "e",
+      "callee_method": "getStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "VideoService",
+      "callee_method": "extractText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "uriBuilder",
+      "callee_method": "path",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "WebClient",
+      "callee_method": "post",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "analyzeVideo",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "StringBuilder",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "Object",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "p",
+      "callee_method": "get",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "List",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "VideoService",
+      "caller_method": "extractText",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "buildYoutubeService",
+      "callee_class": "GoogleNetHttpTransport",
+      "callee_method": "newTrustedTransport",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "List",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "VideoListResponse",
+      "callee_method": "getItems",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "YouTube.Videos.List",
+      "callee_method": "execute",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "Collections",
+      "callee_method": "singletonList",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "Collections",
+      "callee_method": "singletonList",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getVideoTitle",
+      "callee_class": "YouTube",
+      "callee_method": "videos",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "YoutubeApiClient",
+      "callee_method": "parseSbvToPlainText",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "ByteArrayOutputStream",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "YouTube.Captions.Download",
+      "callee_method": "executeMediaAndDownloadTo",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "YouTube",
+      "callee_method": "captions",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "List",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "caption",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "String",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "String",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "String",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "caption",
+      "callee_method": "getId",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "String",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "String",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "String",
+      "callee_method": "equals",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "caption",
+      "callee_method": "getSnippet",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "caption",
+      "callee_method": "getSnippet",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "CaptionListResponse",
+      "callee_method": "getItems",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "YouTube.Captions.List",
+      "callee_method": "execute",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "Collections",
+      "callee_method": "singletonList",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "getTranscript",
+      "callee_class": "YouTube",
+      "callee_method": "captions",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "parseSbvToPlainText",
+      "callee_class": "StringBuilder",
+      "callee_method": "toString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "parseSbvToPlainText",
+      "callee_class": "StringBuilder",
+      "callee_method": "append",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "parseSbvToPlainText",
+      "callee_class": "line",
+      "callee_method": "trim",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "parseSbvToPlainText",
+      "callee_class": "line",
+      "callee_method": "trim",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "parseSbvToPlainText",
+      "callee_class": "line",
+      "callee_method": "matches",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeApiClient",
+      "caller_method": "parseSbvToPlainText",
+      "callee_class": "String",
+      "callee_method": "split",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "extractVideoId",
+      "callee_class": "log",
+      "callee_method": "warn",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "extractVideoId",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "extractVideoId",
+      "callee_class": "Matcher",
+      "callee_method": "group",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "extractVideoId",
+      "callee_class": "Matcher",
+      "callee_method": "find",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "extractVideoId",
+      "callee_class": "Pattern",
+      "callee_method": "matcher",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "extractVideoId",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTitle",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "e",
+      "callee_method": "getMessage",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "log",
+      "callee_method": "error",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "e",
+      "callee_method": "getStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "log",
+      "callee_method": "error",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "e",
+      "callee_method": "getResponseBodyAsString",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "e",
+      "callee_method": "getStatusCode",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "String",
+      "callee_method": "substring",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "Math",
+      "callee_method": "min",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "log",
+      "callee_method": "warn",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "Map",
+      "callee_method": "get",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "WebClient",
+      "callee_method": "post",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "Map",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YouTubeDataService",
+      "caller_method": "fetchTranscript",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "e",
+      "callee_method": "printStackTrace",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "isKorean",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "v",
+      "callee_method": "getChannelTitle",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "isKorean",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "v",
+      "callee_method": "getTitle",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "stream",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "has",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "RecoItemDTO",
+      "callee_method": "builder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "String",
+      "callee_method": "startsWith",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "isKorean",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "isKorean",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "YoutubeSearchService",
+      "callee_method": "isoDurationToSec",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "v",
+      "callee_method": "path",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "v",
+      "callee_method": "path",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "v",
+      "callee_method": "path",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "v",
+      "callee_method": "path",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "ObjectMapper",
+      "callee_method": "readTree",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpResponse",
+      "callee_method": "body",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpClient",
+      "callee_method": "send",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpRequest",
+      "callee_method": "newBuilder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "String",
+      "callee_method": "join",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "UriComponentsBuilder",
+      "callee_method": "fromUriString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "of",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "size",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "List",
+      "callee_method": "add",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "String",
+      "callee_method": "isBlank",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "it",
+      "callee_method": "path",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "JsonNode",
+      "callee_method": "path",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "ObjectMapper",
+      "callee_method": "readTree",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpResponse",
+      "callee_method": "body",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpClient",
+      "callee_method": "send",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpRequest",
+      "callee_method": "newBuilder",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "HttpClient",
+      "callee_method": "newHttpClient",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "Math",
+      "callee_method": "min",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "UriComponentsBuilder",
+      "callee_method": "fromUriString",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "searchTopSmart",
+      "callee_class": "log",
+      "callee_method": "info",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "isKorean",
+      "callee_class": "String",
+      "callee_method": "charAt",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "isKorean",
+      "callee_class": "String",
+      "callee_method": "length",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "isoDurationToSec",
+      "callee_class": "Integer",
+      "callee_method": "parseInt",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "isoDurationToSec",
+      "callee_class": "String",
+      "callee_method": "isEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "isoDurationToSec",
+      "callee_class": "Character",
+      "callee_method": "isDigit",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "YoutubeSearchService",
+      "caller_method": "isoDurationToSec",
+      "callee_class": "String",
+      "callee_method": "replace",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "String",
+      "callee_method": "join",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Collectors",
+      "callee_method": "toList",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Math",
+      "callee_method": "max",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Math",
+      "callee_method": "min",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Integer",
+      "callee_method": "compare",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "a",
+      "callee_method": "getKey",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "b",
+      "callee_method": "getKey",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Integer",
+      "callee_method": "compare",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "a",
+      "callee_method": "getValue",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "b",
+      "callee_method": "getValue",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Map",
+      "callee_method": "entrySet",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Map",
+      "callee_method": "merge",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "raw",
+      "callee_method": "chars",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Set",
+      "callee_method": "contains",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "raw",
+      "callee_method": "length",
+      "is_resolved": false
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "Pattern",
+      "callee_method": "split",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "String",
+      "callee_method": "toLowerCase",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "String",
+      "callee_method": "join",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "QueryUtil",
+      "callee_method": "nullToEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "QueryUtil",
+      "callee_method": "nullToEmpty",
+      "is_resolved": true
+    },
+    {
+      "caller_class": "QueryUtil",
+      "caller_method": "extractCompactQuery",
+      "callee_class": "QueryUtil",
+      "callee_method": "nullToEmpty",
+      "is_resolved": true
+    }
+  ],
+  "errors": []
+}
