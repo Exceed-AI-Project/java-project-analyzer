@@ -25,7 +25,6 @@ _MENU_ITEMS = [
     "🏠 홈",
     "🔍 AST 분석",
     "🛠️ 리팩토링 제안",
-    "💬 RAG 질의응답",
     "🚀 API 시뮬레이터",
 ]
 
@@ -78,7 +77,6 @@ PAGE_RENDERERS = {
     "🏠 홈": home.render_home,
     "🔍 AST 분석": analysis.render_analysis,
     "🛠️ 리팩토링 제안": refactor.render_refactor,
-    "💬 RAG 질의응답": rag.render_rag,
     "🚀 API 시뮬레이터": simulator.render_simulator,
 }
 
