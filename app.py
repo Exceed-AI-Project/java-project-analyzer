@@ -3,7 +3,7 @@ Java Refactor Assistant
 파이썬 기반 Java 프로젝트 AST 분석 및 리팩토링, API 시뮬레이션 도구
 """
 import streamlit as st
-from ui import analysis, home, refactor, simulator
+from ui import analysis, home, refactor, simulator, query, graph
 from ui.styles.sidebar import SIDEBAR_CSS
 
 
@@ -27,6 +27,7 @@ _MENU_ITEMS = [
     "🛠️ 리팩토링 제안",
     "💬 RAG 질의응답",
     "🚀 API 시뮬레이터",
+    "🕸 의존성 맵",
 ]
 
 
@@ -78,7 +79,9 @@ PAGE_RENDERERS = {
     "🏠 홈": home.render_home,
     "🔍 AST 분석": analysis.render_analysis,
     "🛠️ 리팩토링 제안": refactor.render_refactor,
+    "💬 RAG 질의응답": query.render_query,
     "🚀 API 시뮬레이터": simulator.render_simulator,
+    "🕸 의존성 맵": graph.render_graph,
 }
 
 PAGE_RENDERERS[st.session_state.menu]()
