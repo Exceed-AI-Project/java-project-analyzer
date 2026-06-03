@@ -234,16 +234,18 @@ def render_graph():
     graph_version = st.session_state.get("graph_version", 0)
     clicked = _vis_graph(key="vis_graph", height=660, version=graph_version, default=None)
 
-    # 새 노드 클릭 → graph_class_select(selectbox) 세션 값 갱신
+    # 새 노드 클릭 → _orphan_select로 selectbox 인덱스 제어
     all_nodes = ["—"] + sorted(nodes_list)
     if clicked and clicked != st.session_state.get("_last_vis_click"):
         st.session_state["_last_vis_click"] = clicked
         st.session_state["selected_class"]  = clicked
         if clicked in all_nodes:
-            st.session_state["graph_class_select"] = clicked
+            st.session_state["_orphan_select"] = clicked
 
+    _sel = st.session_state.get("_orphan_select", "—")
+    _idx = all_nodes.index(_sel) if _sel in all_nodes else 0
     cols = st.columns([3, 1])
-    target = cols[0].selectbox("클래스로 이동", all_nodes, key="graph_class_select", index=0)
+    target = cols[0].selectbox("클래스로 이동", all_nodes, index=_idx)
     st.session_state["selected_class"] = target  # 수동 선택도 동기화
     if cols[1].button("🛠 리팩토링으로", use_container_width=True, disabled=target == "—"):
         st.session_state.focus_class = target
@@ -256,4 +258,54 @@ def render_graph():
             st.code(" → ".join(cy))
     if orphans:
         st.subheader("⚪ 고아(미사용 빈 후보)")
-        st.write(", ".join(sorted(orphans)))
+        st.markdown("""<div class="orphan-cards-section"></div>
+<style>
+.element-container:has(.orphan-cards-section) ~ * [data-testid="stButton"] > button {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: #5a7aa8 !important;
+    padding: 2px 0 4px 0 !important;
+    font-size: 11px !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    transition: color 0.15s ease !important;
+    margin-top: -4px !important;
+}
+.element-container:has(.orphan-cards-section) ~ * [data-testid="stButton"] > button:hover {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #93c5fd !important;
+}
+</style>""", unsafe_allow_html=True)
+        bean_types = {"service", "component", "repository", "controller"}
+        sorted_orphans = sorted(orphans)
+        cols_per_row = 3
+        for row_start in range(0, len(sorted_orphans), cols_per_row):
+            row_items = sorted_orphans[row_start:row_start + cols_per_row]
+            grid_cols = st.columns(cols_per_row)
+            for col, name in zip(grid_cols, row_items):
+                ci = model.by_name.get(name)
+                stereo = ci.stereotype if ci else "other"
+                badge_color = _PALETTE.get(stereo, _PALETTE["other"])
+                fields_cnt = len(ci.fields) if ci else 0
+                methods_cnt = len(ci.methods) if ci else 0
+                reason = "미사용 빈(Bean)" if stereo in bean_types else "참조하는 클래스 없음"
+                card_html = (
+                    "<div style='background:#0f1b35;border:1px solid #2e4a7a;"
+                    "border-radius:10px;padding:14px 16px;font-family:sans-serif;"
+                    "color:#e7eeff;margin-bottom:4px;'>"
+                    f"<span style='font-weight:700;font-size:15px;color:#ffffff'>{name}</span>"
+                    f"<span style='background:{badge_color};color:#fff;border-radius:20px;"
+                    f"padding:2px 10px;font-size:11px;margin-left:8px'>{stereo}</span>"
+                    "<br><br>"
+                    f"<span style='color:#ff8f8f;font-size:12px'>⚠ {reason}</span>"
+                    "<br>"
+                    f"<span style='color:#9fb3da;font-size:13px'>fields {fields_cnt}개 · methods {methods_cnt}개</span>"
+                    "</div>"
+                )
+                col.markdown(card_html, unsafe_allow_html=True)
+                if col.button("↑ 선택", key=f"orphan_select_{name}", use_container_width=True):
+                    st.session_state["_orphan_select"] = name
+                    st.rerun()
