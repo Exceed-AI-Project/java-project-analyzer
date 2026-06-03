@@ -81,9 +81,11 @@ class ProjectModel:
 
     @property
     def by_name(self) -> dict[str, ClassInfo]:
+        """클래스명으로 빠르게 ClassInfo 를 조회하기 위한 인덱스."""
         return {c.name: c for c in self.classes}
 
     def of_stereotype(self, stereotype: str) -> list[ClassInfo]:
+        """주어진 스테레오타입(controller/service 등)의 클래스만 필터링."""
         return [c for c in self.classes if c.stereotype == stereotype]
 
 

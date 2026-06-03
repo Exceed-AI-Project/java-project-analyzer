@@ -18,9 +18,9 @@ st.set_page_config(
 )
 
 
-st.markdown(SIDEBAR_CSS, unsafe_allow_html=True) # 마크 다운 형식으로 출력하는 함수를 통해, css 적용(unsafe_allow_html=True 옵션을 통해, HTEML 태그를 escape))
+# Streamlit 은 기본적으로 HTML 을 escape 하므로, 사이드바 <style> 태그를 적용하려면 이 옵션이 필요.
+st.markdown(SIDEBAR_CSS, unsafe_allow_html=True)
 
-# 메뉴 초기화
 _MENU_ITEMS = [
     "🏠 홈",
     "🔍 AST 분석",
@@ -60,7 +60,7 @@ with st.sidebar:
             st.session_state.menu = _item
             st.rerun()
     
-    st.divider() # 선 추가
+    st.divider()
 
     st.caption("선택된 프로젝트")
     if st.session_state.selected_project:

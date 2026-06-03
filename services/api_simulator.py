@@ -57,10 +57,12 @@ class Violation:
 # 1) 엔드포인트 추출
 # ============================================================
 def _path_of(params: dict) -> str:
+    """@RequestMapping("/x") / value="/x" / path="/x" 중 어떤 형태든 경로 문자열 추출."""
     return params.get("_value") or params.get("value") or params.get("path") or ""
 
 
 def extract_endpoints(model: ProjectModel) -> list[Endpoint]:
+    """모든 @Controller / @RestController 의 매핑 메서드를 Endpoint 리스트로 추출."""
     endpoints: list[Endpoint] = []
     for ci in model.of_stereotype("controller"):
         # 클래스 레벨 @RequestMapping 경로 prefix
@@ -188,7 +190,8 @@ def simulate_request(endpoint: Endpoint, payload: dict, model: ProjectModel) -> 
 # ============================================================
 def trace_call_path(endpoint: Endpoint, model: ProjectModel, max_depth: int = 4) -> list[str]:
     """Controller 메서드에서 시작해 Service/Repository 호출을 이름 기반으로 따라간다.
-    ※ javalang 은 타입 리졸브를 안 하므로 '호출된 메서드명'을 가진 빈을 매칭하는 근사치.
+    ※ tree-sitter 단독 사용 시에는 타입 리졸브가 없어 '호출된 메서드명' 매칭의
+       근사치다. 사이드카가 채운 resolved_calls 가 있으면 더 정확한 매칭이 가능.
     """
     controller = model.by_name.get(endpoint.controller)
     if not controller:
@@ -232,6 +235,7 @@ from services import llm as _llm
 
 
 def _strip_json(text: str) -> str:
+    """LLM 응답에서 ```...``` 코드 펜스를 떼고 JSON 본문만 반환."""
     t = text.strip()
     if t.startswith("```"):
         t = t.split("\n", 1)[1] if "\n" in t else t

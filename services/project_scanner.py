@@ -1,16 +1,15 @@
-'''
-Git repository 스캔, 프로젝트 타입 확인, 빌드 모듈 확인
-
-'''
+"""
+Git 저장소 clone, Java 프로젝트 판별, 빌드 모듈(Maven/Gradle) 탐색.
+"""
 
 from models.project import ProjectInfo, BuildModule, BuildInfo
-from utils.workspace import ensure_workspace, save_metadata, WORKSPACE_DIR 
+from utils.workspace import ensure_workspace, save_metadata, WORKSPACE_DIR
 
 from typing import Optional
 from pathlib import Path
 import subprocess
 from datetime import datetime
-import shutil # window의 shell 명령어를 사용가능하게 해주는 라이브러리
+import shutil
 
 
 # ============================================================
@@ -32,9 +31,11 @@ SKIP_DIRS = {
     ".git", ".analysis", "__pycache__",          # 기타
     "test-fixtures", "fixtures",                 # 테스트 픽스처는 보통 분석 대상 아님
 }
-MAX_SCAN_DEPTH = 4 # 최대 탐색 깊이
+# 멀티모듈 깊이 제한: Maven/Gradle 멀티모듈은 보통 2~3단계라 4면 충분, 무한 재귀 방지.
+MAX_SCAN_DEPTH = 4
 
-GITCLONE_TIMEOUT = 300 # git clone subprocess timeout 시간 지정
+# git clone 은 큰 저장소에서 오래 걸릴 수 있어 5분까지 허용.
+GITCLONE_TIMEOUT = 300
 
 
 # ============================================================
@@ -53,10 +54,10 @@ def _find_build_modules(
     if depth > MAX_SCAN_DEPTH:
         return
 
-    # 현재 디렉토리에 빌드 파일이 있는지 (우선순위 순으로)
+    # OS 간 경로 표기를 통일하기 위해 as_posix() 로 슬래시 형식 사용.
     for build_file, tool in BUILD_FILES.items():
         if (current / build_file).exists():
-            relative = current.relative_to(project_root).as_posix() # relative_to: 프로젝트를 기준으로 상대 경로를 구해, as_posix() os별 슬래시 문자열 반환
+            relative = current.relative_to(project_root).as_posix()
             if relative == ".":
                 relative = "."
             found.append(BuildModule(
@@ -65,9 +66,8 @@ def _find_build_modules(
                 build_file=build_file,
                 java_file_count=_count_java_in_dir(current),
             ))
-            # 빌드 파일을 찾았으면 이 디렉토리 하위는 멀티모듈일 때만 더 탐색
-            # (Maven/Gradle은 보통 자식 모듈도 자체 빌드 파일을 가짐)
-            break  # 같은 폴더의 다른 빌드 파일은 무시
+            # 같은 폴더의 다른 빌드 파일은 우선순위가 높은 첫 매치만 채택.
+            break
 
     # 하위 디렉토리 탐색
     try:
@@ -187,8 +187,9 @@ def clone_project(git_url: str) -> tuple[bool, str, Optional[ProjectInfo]]:
     except FileNotFoundError:
         return False, "Git이 설치되어 있지 않아요. https://git-scm.com 에서 설치해주세요", None
     except subprocess.TimeoutExpired:
+        # 부분 clone 된 폴더가 남으면 다음 시도가 "이미 존재" 로 막히므로 정리.
         if target_path.exists():
-            shutil.rmtree(target_path, ignore_errors=True) # rmtree: 폴더 통째로 삭제
+            shutil.rmtree(target_path, ignore_errors=True)
         return False, "Clone 타임아웃 (5분 초과)", None
     except Exception as e:
         return False, f"Clone 중 오류: {e}", None

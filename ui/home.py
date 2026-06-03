@@ -1,3 +1,8 @@
+"""
+홈 페이지 — OpenAI 키 검증, Git clone, 프로젝트 목록.
+
+다른 메뉴 진입의 전제조건(키 검증·프로젝트 선택)이 여기서 모두 세션에 들어간다.
+"""
 import streamlit as st
 from services.project_manager import scan_projects
 from services.project_scanner import clone_project
@@ -29,6 +34,7 @@ def render_home():
             check = st.button("확인", use_container_width=True, disabled=not key_in)
 
         if check:
+            # 검증 실패 키를 세션에 남기면 다른 페이지에서 키가 있는 줄 알고 호출했다가 실패함 → 빈 문자열로 명시.
             with st.spinner("API 키로 테스트 요청 전송 중..."):
                 ok, msg = validate_key(key_in.strip())
             st.session_state.llm_ok = ok

@@ -1,3 +1,8 @@
+"""
+질의 기반 리팩토링 페이지 — 사용자가 자연어로 변경 의도를 적으면 LLM 이 diff 생성.
+
+리팩토링 메뉴(결함 기반)와 다른 점: 결함이 없어도 자유롭게 수정 요청을 보낼 수 있다.
+"""
 import streamlit as st
 from services.ast_analyzer import build_model
 from services.query_refactor import propose_change, apply_proposal

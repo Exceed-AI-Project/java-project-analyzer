@@ -1,3 +1,9 @@
+"""
+workspace 경로 상수와 프로젝트별 메타데이터(.analysis/metadata.json) I/O.
+
+메타데이터에는 git_url, cloned_at, 분석 여부 등이 들어가며 새로고침/재시작 후에도
+프로젝트 상태를 복원하기 위해 파일로 영속한다.
+"""
 from pathlib import Path
 from typing import Optional
 import json

@@ -1,3 +1,10 @@
+"""
+워크스페이스에 clone 된 Java 프로젝트의 메타 데이터 모델.
+
+scan/clone 시 채워져 홈 화면의 프로젝트 카드 UI 가 소비한다.
+AST 분석 결과 모델(models/analysis.py)과는 별개 — 이건 '프로젝트 파일 시스템 측면',
+저쪽은 '소스 코드 구조 측면'.
+"""
 from dataclasses import dataclass, field, asdict
 from typing import Optional
 from pathlib import Path

@@ -24,6 +24,7 @@ class RefactorProposal:
 
 
 def _class_context(ci: ClassInfo) -> str:
+    """클래스의 어노테이션·필드·메서드 시그니처를 LLM 프롬프트용 텍스트로 직렬화."""
     lines = [f"class {ci.name} (stereotype={ci.stereotype}, pkg={ci.package})"]
     if ci.annotations:
         lines.append("  annotations: " + ", ".join("@" + a for a in ci.annotations))
@@ -38,6 +39,7 @@ def _class_context(ci: ClassInfo) -> str:
 
 
 def _strip_fences(text: str) -> str:
+    """LLM 응답에서 ```...``` 코드 펜스를 떼고 알맹이만 반환."""
     t = text.strip()
     if t.startswith("```"):
         t = t.split("\n", 1)[1] if "\n" in t else t
@@ -48,6 +50,7 @@ def _strip_fences(text: str) -> str:
 
 def propose_change(query: str, file_path: str, model: ProjectModel,
                    api_key: str) -> RefactorProposal:
+    """자연어 질의 + AST 컨텍스트를 LLM 에 던져 통합 diff 형태의 수정안 생성."""
     try:
         original = Path(file_path).read_text(encoding="utf-8", errors="replace")
     except Exception as e:
@@ -85,6 +88,7 @@ def propose_change(query: str, file_path: str, model: ProjectModel,
 
 
 def apply_proposal(proposal: RefactorProposal) -> tuple[bool, str]:
+    """제안된 변경을 원본 파일에 덮어쓰기. (이 함수만 실제 파일 수정을 수행)"""
     if not proposal.ok or not proposal.proposed:
         return False, "적용할 제안이 없음"
     try:

@@ -26,7 +26,7 @@ java -jar target/java-analyzer-sidecar.jar /path/to/some/java/project | head
 Python 앱은 자동으로 사이드카를 우선 사용한다:
 - 기본 경로 `sidecar/target/java-analyzer-sidecar.jar` 가 있으면 `build_model(parser="auto")` 가 이걸 먼저 쓴다.
 - 다른 경로면 환경변수로 지정: `export JP_SIDECAR_JAR=/abs/path/to.jar`
-- jar 가 없거나 java 가 없으면 자동으로 tree-sitter → javalang 으로 폴백 (앱은 안 죽음).
+- jar 가 없거나 java 가 없으면 자동으로 tree-sitter 로 폴백 (앱은 안 죽음).
 
 리졸브 데이터가 있으면 데드코드 탐지가 `DEAD_CODE_PRECISE` 로 자동 전환된다
 (동명 메서드 오탐 제거).

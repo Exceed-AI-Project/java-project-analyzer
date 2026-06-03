@@ -1,17 +1,19 @@
 """
 AST 분석 엔진
-javalang 으로 프로젝트의 .java 파일을 파싱해 구조 모델(ProjectModel)을 만들고,
-규칙 기반 결함(Finding)을 탐지한다.
 
-※ javalang 은 '파서'일 뿐 심볼/타입 리졸버가 아니다.
-   따라서 콜그래프/타입 매칭은 이름 기반 휴리스틱으로 처리하며, 한계가 있음을 전제로 한다.
-   (정밀도가 더 필요하면 추후 JavaParser/Spoon 기반 JVM 사이드카로 교체)
+진입점(build_model)과 규칙 기반 결함 탐지기(detect_*)를 제공한다.
+실제 .java 파싱은 두 가지 파서 중 하나가 담당한다:
+
+  - services/ts_analyzer.py        : tree-sitter (기본, Java 17+ 지원)
+  - services/javaparser_sidecar.py : JavaParser 사이드카 (jar 있을 때 정밀 모드)
+
+본 모듈은 파서에 직접 의존하지 않고, 두 파서 모두 동일한 ProjectModel 을 산출하므로
+탐지기들은 어떤 파서가 쓰였는지와 무관하게 동작한다. 단, 사이드카가 채우는
+MethodInfo.resolved_calls 가 있으면 run_all_detectors 가 detect_dead_code 대신
+precise_dead_code(심볼 리졸브 기반)로 자동 분기한다.
 """
 from __future__ import annotations
 from pathlib import Path
-
-import javalang
-from javalang import tree as jtree
 
 from models.analysis import (
     ProjectModel, ClassInfo, FieldInfo, MethodInfo, ParamInfo, Finding,
@@ -36,126 +38,19 @@ NOT_NULL_ANNS = {"NotNull", "NotBlank", "NotEmpty"}
 
 
 # ============================================================
-# 어노테이션 파라미터 추출 헬퍼
-# ============================================================
-def _literal_value(node) -> str | None:
-    """javalang 값 노드에서 문자열 표현을 최대한 뽑아낸다."""
-    if node is None:
-        return None
-    if isinstance(node, jtree.Literal):
-        return str(node.value).strip('"')
-    if isinstance(node, jtree.MemberReference):
-        return node.member
-    if hasattr(node, "value") and isinstance(node.value, str):
-        return node.value.strip('"')
-    return None
-
-
-def _ann_params(annotation) -> dict:
-    """@Column(nullable = false), @RequestMapping("/x") 등에서 파라미터 dict 추출.
-    위치 인자는 "_value" 키로 들어간다.
-    """
-    params: dict = {}
-    elem = getattr(annotation, "element", None)
-    if elem is None:
-        return params
-    pairs = elem if isinstance(elem, list) else [elem]
-    for p in pairs:
-        if isinstance(p, jtree.ElementValuePair):
-            params[p.name] = _literal_value(p.value)
-        else:
-            params["_value"] = _literal_value(p)
-    return params
-
-
-def _collect_annotations(node) -> dict[str, dict]:
-    out: dict[str, dict] = {}
-    for ann in (getattr(node, "annotations", None) or []):
-        out[ann.name] = _ann_params(ann)
-    return out
-
-
-def _type_name(type_node) -> str:
-    if type_node is None:
-        return "void"
-    name = getattr(type_node, "name", None) or type_node.__class__.__name__
-    args = getattr(type_node, "arguments", None)
-    if args:
-        inner = []
-        for a in args:
-            t = getattr(a, "type", None)
-            inner.append(getattr(t, "name", "?") if t else "?")
-        return f"{name}<{', '.join(inner)}>"
-    return name
-
-
-# ============================================================
-# 파일 1개 파싱
-# ============================================================
-def _parse_class(decl, package: str, file_path: str) -> ClassInfo:
-    kind = (
-        "interface" if isinstance(decl, jtree.InterfaceDeclaration)
-        else "enum" if isinstance(decl, jtree.EnumDeclaration)
-        else "class"
-    )
-    ci = ClassInfo(
-        name=decl.name,
-        kind=kind,
-        package=package,
-        file_path=file_path,
-        annotations=_collect_annotations(decl),
-        extends=_type_name(decl.extends) if getattr(decl, "extends", None) else None,
-        implements=[_type_name(i) for i in (getattr(decl, "implements", None) or [])],
-    )
-
-    for fdecl in (getattr(decl, "fields", None) or []):
-        ftype = _type_name(fdecl.type)
-        fanns = _collect_annotations(fdecl)
-        fmods = set(fdecl.modifiers or [])
-        for var in fdecl.declarators:
-            ci.fields.append(FieldInfo(
-                name=var.name, type=ftype, annotations=fanns,
-                modifiers=fmods, line=(fdecl.position.line if fdecl.position else 0),
-            ))
-
-    for m in (getattr(decl, "methods", None) or []):
-        params = [
-            ParamInfo(name=p.name, type=_type_name(p.type),
-                      annotations=_collect_annotations(p))
-            for p in m.parameters
-        ]
-        invokes = []
-        if m.body:
-            try:
-                for _, inv in m.filter(jtree.MethodInvocation):
-                    invokes.append(inv.member)
-            except Exception:
-                pass
-        ci.methods.append(MethodInfo(
-            name=m.name,
-            return_type=_type_name(m.return_type),
-            params=params,
-            annotations=_collect_annotations(m),
-            modifiers=set(m.modifiers or []),
-            invokes=invokes,
-            line=(m.position.line if m.position else 0),
-        ))
-    return ci
-
-
-def _iter_java_files(root: Path):
-    for path in root.rglob("*.java"):
-        if any(part in SKIP_DIRS for part in path.parts):
-            continue
-        yield path
-
-
-# ============================================================
 # 프로젝트 전체 모델 빌드
 # ============================================================
 def build_model(project_path: str | Path, parser: str = "auto") -> ProjectModel:
-    """parser: 'auto' = 사이드카(jar 있으면) → tree-sitter → javalang 순 폴백.
-               'javaparser' = 강제 사이드카(심볼 리졸브). 'treesitter' / 'javalang' = 강제.
+    """프로젝트 .java 파일들을 파싱해 ProjectModel 반환.
+
+    parser:
+        'auto'       = 사이드카(jar 있으면) → tree-sitter 순. (기본)
+        'javaparser' = 강제 사이드카. jar 없으면 RuntimeError 전파.
+        'treesitter' = 강제 tree-sitter.
+
+    사이드카가 정상 실행되면 MethodInfo.resolved_calls 가 채워져
+    run_all_detectors 가 detect_dead_code 대신 precise_dead_code 로 자동 분기한다
+    (DEAD_CODE_PRECISE — 동명 메서드 오탐 제거).
     """
     if parser in ("auto", "javaparser"):
         try:
@@ -165,41 +60,10 @@ def build_model(project_path: str | Path, parser: str = "auto") -> ProjectModel:
         except Exception:
             if parser == "javaparser":
                 raise
-    if parser in ("auto", "treesitter"):
-        try:
-            from services.ts_analyzer import build_model_ts
-            return build_model_ts(project_path)
-        except Exception:
-            if parser == "treesitter":
-                raise
-            # tree-sitter 미설치 등 → javalang 폴백
-    return _build_model_javalang(project_path)
-
-
-def _build_model_javalang(project_path: str | Path) -> ProjectModel:
-    root = Path(project_path)
-    model = ProjectModel()
-
-    for path in _iter_java_files(root):
-        rel = str(path.relative_to(root))
-        try:
-            source = path.read_text(encoding="utf-8", errors="replace")
-            tree = javalang.parse.parse(source)
-        except Exception as e:
-            # javalang 0.13 은 record/sealed 등 Java 17 신문법 일부를 못 읽는다 → 에러로 기록
-            model.parse_errors.append((rel, f"{type(e).__name__}: {e}"))
-            continue
-
-        package = tree.package.name if tree.package else ""
-        imports = [(imp.path + ".*") if imp.wildcard else imp.path
-                   for imp in (tree.imports or [])]
-        for decl in tree.types:
-            if isinstance(decl, (jtree.ClassDeclaration, jtree.InterfaceDeclaration,
-                                 jtree.EnumDeclaration)):
-                ci = _parse_class(decl, package, rel)
-                ci.imports = imports
-                model.classes.append(ci)
-    return model
+            # auto 모드: 사이드카 실패 시 tree-sitter 로 폴백
+    # tree-sitter (기본 경로)
+    from services.ts_analyzer import build_model_ts
+    return build_model_ts(project_path)
 
 
 # ============================================================

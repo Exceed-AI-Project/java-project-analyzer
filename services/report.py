@@ -17,6 +17,7 @@ _FINDINGS_FILE = "findings.json"
 
 
 def save_findings(project_root: str, findings: list[Finding]) -> str:
+    """탐지 결과를 .analysis/findings.json 에 저장하고 저장 경로 반환."""
     d = Path(project_root) / ANALYSIS_DIR
     d.mkdir(exist_ok=True)
     payload = {
@@ -29,6 +30,7 @@ def save_findings(project_root: str, findings: list[Finding]) -> str:
 
 
 def load_findings(project_root: str) -> tuple[list[Finding], str] | None:
+    """저장된 탐지 결과를 (findings, 저장시각) 으로 복원. 없으면 None."""
     p = Path(project_root) / ANALYSIS_DIR / _FINDINGS_FILE
     if not p.exists():
         return None
@@ -38,6 +40,7 @@ def load_findings(project_root: str) -> tuple[list[Finding], str] | None:
 
 def to_markdown(project_name: str, findings: list[Finding],
                 model: ProjectModel | None = None) -> str:
+    """탐지 결과를 다운로드용 Markdown 리포트로 변환."""
     sev_order = {"high": 0, "medium": 1, "low": 2}
     sev_count = Counter(f.severity for f in findings)
     cat_count = Counter(f.category for f in findings)

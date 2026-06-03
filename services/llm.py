@@ -16,6 +16,7 @@ DEFAULT_MODEL = "gpt-4o-mini"
 
 
 def _friendly_error(e: Exception) -> str:
+    """OpenAI 예외를 사용자에게 보여줄 짧은 한국어 메시지로 변환."""
     name, msg = type(e).__name__, str(e)
     if "Authentication" in name or "401" in msg:
         return "키가 유효하지 않음 (인증 실패)"
@@ -46,6 +47,7 @@ def validate_key(api_key: str, model: str = DEFAULT_MODEL) -> tuple[bool, str]:
 
 def chat(api_key: str, messages: list[dict], model: str = DEFAULT_MODEL,
          temperature: float = 0) -> str:
+    """OpenAI Chat Completions 호출 후 본문 텍스트만 반환."""
     if not _OPENAI_AVAILABLE:
         raise RuntimeError("openai 패키지 미설치")
     client = OpenAI(api_key=api_key.strip())

@@ -1,3 +1,9 @@
+"""
+프로젝트 카드 컴포넌트 — 홈 화면의 프로젝트 목록 한 줄 단위 UI.
+
+선택/빌드/삭제 액션과 빌드 결과 로그 표시를 담당. 빌드 결과는 세션 키
+'build_result_{name}' 에 저장해 새 빌드 전까지 유지된다.
+"""
 import streamlit as st
 from models.project import ProjectInfo
 from services.project_manager import delete_project

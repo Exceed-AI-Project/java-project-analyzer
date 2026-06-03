@@ -1,3 +1,9 @@
+"""
+리팩토링 제안 페이지 — Finding 1건 또는 배치 단위로 LLM 수정안(diff) 생성·적용·검증.
+
+흐름: 결함 선택 → diff 생성 → 사용자 검토 → apply → 컴파일 검증 → 재탐지.
+시뮬레이터의 위반(Violation)이나 의존성 맵의 클래스 포커스도 같은 루프로 흘러온다.
+"""
 import streamlit as st
 from services.ast_analyzer import build_model, run_all_detectors
 from services.refactor_loop import propose_fix, apply_and_verify, parse_location, batch_propose, batch_apply

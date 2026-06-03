@@ -22,10 +22,12 @@ _TIMEOUT = 300
 
 
 def jar_path() -> Path:
+    """사이드카 jar 경로. 환경변수로 다른 경로 지정 가능 (기본은 sidecar/target/...)."""
     return Path(os.getenv("JP_SIDECAR_JAR", str(_DEFAULT_JAR)))
 
 
 def available() -> tuple[bool, str]:
+    """사이드카 사용 가능 여부 + 실패 사유 메시지. (Java 런타임 + jar 존재 확인)"""
     if shutil.which("java") is None:
         return False, "java 런타임 없음"
     if not jar_path().exists():
@@ -70,6 +72,7 @@ def _to_class(d: dict) -> ClassInfo:
 
 
 def parse_payload(payload: dict) -> ProjectModel:
+    """사이드카가 stdout 으로 뱉은 JSON dict 를 ProjectModel 로 복원."""
     model = ProjectModel()
     model.classes = [_to_class(c) for c in payload.get("classes", [])]
     model.parse_errors = [tuple(e) for e in payload.get("parseErrors", [])]
@@ -77,6 +80,7 @@ def parse_payload(payload: dict) -> ProjectModel:
 
 
 def build_model_javaparser(project_path: str | Path) -> ProjectModel:
+    """사이드카 jar 를 subprocess 로 실행 → JSON 파싱 → ProjectModel 반환."""
     ok, why = available()
     if not ok:
         raise RuntimeError(why)

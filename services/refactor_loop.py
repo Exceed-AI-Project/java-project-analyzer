@@ -31,6 +31,7 @@ def parse_location(location: str) -> tuple[str, str, str]:
 # Finding → LLM 수정 요청
 # ============================================================
 def finding_to_query(finding: Finding) -> str:
+    """Finding 을 LLM 에 던질 한국어 수정 요청 프롬프트로 변환."""
     rel, cls, method = parse_location(finding.location)
     target = f"클래스 {cls}" + (f" 의 {method}() 메서드" if method else "")
     return (
@@ -44,6 +45,7 @@ def finding_to_query(finding: Finding) -> str:
 
 def propose_fix(finding: Finding, project_root: str, model: ProjectModel,
                 api_key: str) -> RefactorProposal:
+    """Finding 하나에 대한 LLM 수정안(diff) 생성."""
     rel, _, _ = parse_location(finding.location)
     file_path = str(Path(project_root) / rel)
     query = finding_to_query(finding)
@@ -115,6 +117,7 @@ def violation_to_finding(violation, endpoint, model: ProjectModel) -> Finding:
 # ============================================================
 def batch_propose(findings: list[Finding], project_root: str, model: ProjectModel,
                   api_key: str, limit: int = 10) -> list[tuple[Finding, RefactorProposal]]:
+    """상위 N 개 결함에 대해 한꺼번에 LLM 수정안 생성."""
     out = []
     for f in findings[:limit]:
         out.append((f, propose_fix(f, project_root, model, api_key)))

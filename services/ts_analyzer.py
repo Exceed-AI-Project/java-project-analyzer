@@ -1,6 +1,7 @@
 """
 tree-sitter 기반 Java 파서  (Java 17+ 지원: record / sealed / text block 등)
-javalang 과 동일한 ProjectModel 을 산출해 하위 모듈(시뮬레이터/루프/탐지기)은 그대로 동작.
+사이드카(JavaParser)와 동일한 ProjectModel 을 산출해 하위 모듈(시뮬레이터/루프/탐지기)은
+파서가 무엇이든 동일하게 동작한다.
 
 핵심:
 - record 의 컴포넌트를 '필드'로 매핑 → 모던 Spring DTO(record) 의 제약을 읽을 수 있음
@@ -22,6 +23,7 @@ _PARSER = Parser(_JAVA)
 
 
 def _txt(node) -> str:
+    """tree-sitter 노드의 원본 텍스트를 UTF-8 문자열로 디코드."""
     return node.text.decode("utf-8", "replace") if node is not None else ""
 
 
@@ -31,6 +33,7 @@ def _simple_name(name: str) -> str:
 
 
 def _find_modifiers(node):
+    """선언 노드의 'modifiers' 자식 노드(어노테이션·public/static 등의 묶음) 반환."""
     for c in node.children:
         if c.type == "modifiers":
             return c
@@ -38,6 +41,7 @@ def _find_modifiers(node):
 
 
 def _collect_annotations(node) -> dict[str, dict]:
+    """선언 노드의 모든 어노테이션을 {이름: 파라미터dict} 형태로 추출."""
     out: dict[str, dict] = {}
     mods = _find_modifiers(node)
     if mods is None:
@@ -53,6 +57,7 @@ def _collect_annotations(node) -> dict[str, dict]:
 
 
 def _ann_args(arglist) -> dict:
+    """@Column(nullable=false) 의 인자 리스트를 dict 로. 위치 인자는 '_value' 키에 담는다."""
     params: dict = {}
     if arglist is None:
         return params
@@ -67,6 +72,7 @@ def _ann_args(arglist) -> dict:
 
 
 def _modifier_keywords(node) -> set[str]:
+    """선언 노드의 접근/수식자(public/static/final 등)를 집합으로 반환."""
     mods = _find_modifiers(node)
     if mods is None:
         return set()
@@ -75,6 +81,7 @@ def _modifier_keywords(node) -> set[str]:
 
 
 def _field(node) -> list[FieldInfo]:
+    """field_declaration 노드를 FieldInfo 리스트로 (int a, b, c 처럼 한 줄에 여러 개 가능)."""
     ftype = _txt(node.child_by_field_name("type"))
     anns = _collect_annotations(node)
     mods = _modifier_keywords(node)
@@ -90,6 +97,7 @@ def _field(node) -> list[FieldInfo]:
 
 
 def _params(formal_params) -> list[ParamInfo]:
+    """파라미터 목록 노드를 ParamInfo 리스트로 변환 (가변인자 포함)."""
     out = []
     if formal_params is None:
         return out
@@ -104,6 +112,7 @@ def _params(formal_params) -> list[ParamInfo]:
 
 
 def _invokes(body) -> list[str]:
+    """메서드 body 안에서 호출된 메서드명들을 수집 (이름만, 소유 클래스는 모름)."""
     if body is None:
         return []
     names = []
@@ -119,6 +128,7 @@ def _invokes(body) -> list[str]:
 
 
 def _risky_catches(body) -> list[str]:
+    """catch 블록의 위험 패턴을 'empty'(빈 블록) / 'broad'(Exception/Throwable) 로 라벨링."""
     if body is None:
         return []
     out = []
@@ -142,6 +152,7 @@ def _risky_catches(body) -> list[str]:
 
 
 def _method(node) -> MethodInfo:
+    """method_declaration 노드 → MethodInfo."""
     body = node.child_by_field_name("body")
     return MethodInfo(
         name=_txt(node.child_by_field_name("name")),
@@ -156,6 +167,7 @@ def _method(node) -> MethodInfo:
 
 
 def _parse_type_decl(node, package: str, rel: str) -> ClassInfo:
+    """class/interface/enum/record 선언 노드 1개 → ClassInfo."""
     kind = {
         "class_declaration": "class",
         "interface_declaration": "interface",
@@ -198,6 +210,7 @@ def _parse_type_decl(node, package: str, rel: str) -> ClassInfo:
 
 
 def _iter_java_files(root: Path):
+    """SKIP_DIRS 를 제외한 .java 파일 경로를 순회."""
     for path in root.rglob("*.java"):
         if any(part in SKIP_DIRS for part in path.parts):
             continue
@@ -205,6 +218,7 @@ def _iter_java_files(root: Path):
 
 
 def build_model_ts(project_path: str | Path) -> ProjectModel:
+    """프로젝트의 모든 .java 파일을 tree-sitter 로 파싱해 ProjectModel 반환."""
     root = Path(project_path)
     model = ProjectModel()
     for path in _iter_java_files(root):

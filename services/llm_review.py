@@ -23,6 +23,7 @@ _REVIEW_PROMPT = (
 
 
 def _strip(t: str) -> str:
+    """LLM 응답에서 ```...``` 코드 펜스를 떼고 JSON 본문만 반환."""
     t = t.strip()
     if t.startswith("```"):
         t = t.split("\n", 1)[1] if "\n" in t else t

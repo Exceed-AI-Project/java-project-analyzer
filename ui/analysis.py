@@ -1,3 +1,9 @@
+"""
+AST 분석 페이지 — 규칙 기반 탐지(Finding) + 임베딩 기반 AI 보조 리뷰.
+
+규칙 탐지(파서가 무엇이든 동일)와 LLM 리뷰(API 키 필요)를 분리해, 키 없어도
+정적 분석은 그대로 사용 가능하다.
+"""
 import streamlit as st
 from services.ast_analyzer import build_model, run_all_detectors
 from services.project_manager import scan_projects

@@ -36,6 +36,7 @@ class Chunk:
 # 청킹
 # ============================================================
 def _chunk_file(rel: str, text: str, start_id: int) -> list[Chunk]:
+    """파일 1개를 _CHUNK_CHARS 단위로 잘라 청크 리스트 반환."""
     chunks = []
     lines = text.splitlines(keepends=True)
     buf, buf_start, cid = "", 1, start_id
@@ -44,7 +45,7 @@ def _chunk_file(rel: str, text: str, start_id: int) -> list[Chunk]:
         if len(buf) + len(ln) > _CHUNK_CHARS and buf:
             chunks.append(Chunk(cid, rel, buf_start, buf))
             cid += 1
-            # 겹침: 마지막 _OVERLAP 문자 유지
+            # 청크 경계에서 문맥이 끊겨 검색이 미스나는 걸 줄이기 위해 끝부분을 다음 청크 머리에 겹침.
             buf = buf[-_OVERLAP:]
             buf_start = line_no
         buf += ln
@@ -55,6 +56,7 @@ def _chunk_file(rel: str, text: str, start_id: int) -> list[Chunk]:
 
 
 def build_chunks(project_root: str) -> list[Chunk]:
+    """프로젝트의 모든 .java 파일을 청킹한 결과 반환."""
     root = Path(project_root)
     chunks, cid = [], 0
     for path in root.rglob("*.java"):
@@ -71,6 +73,7 @@ def build_chunks(project_root: str) -> list[Chunk]:
 # 임베더 (주입식)
 # ============================================================
 def openai_embedder(api_key: str, model: str = "text-embedding-3-small"):
+    """OpenAI 임베딩 함수 반환. 테스트에서는 동일 시그니처의 가짜 함수로 교체 가능."""
     from openai import OpenAI
     client = OpenAI(api_key=api_key.strip())
 
@@ -89,13 +92,15 @@ def _normalize(v: np.ndarray) -> np.ndarray:
 
 
 def build_index(chunks: list[Chunk], embedder) -> tuple[faiss.Index, list[Chunk]]:
+    """청크들을 임베딩해 FAISS 인덱스 구축. L2 정규화 후 내적으로 코사인 유사도를 흉내낸다."""
     vecs = _normalize(embedder([c.text for c in chunks]))
-    index = faiss.IndexFlatIP(vecs.shape[1])   # 코사인(정규화 후 내적)
+    index = faiss.IndexFlatIP(vecs.shape[1])
     index.add(vecs)
     return index, chunks
 
 
 def save_index(project_root: str, index: faiss.Index, chunks: list[Chunk]) -> str:
+    """인덱스 + 청크 메타를 .analysis/ 아래에 저장."""
     d = Path(project_root) / ANALYSIS_DIR
     d.mkdir(exist_ok=True)
     faiss.write_index(index, str(d / _INDEX_FILE))
@@ -105,6 +110,7 @@ def save_index(project_root: str, index: faiss.Index, chunks: list[Chunk]) -> st
 
 
 def load_index(project_root: str) -> tuple[faiss.Index, list[Chunk]] | None:
+    """저장된 인덱스 + 청크 메타 복원. 없으면 None."""
     d = Path(project_root) / ANALYSIS_DIR
     if not (d / _INDEX_FILE).exists() or not (d / _META_FILE).exists():
         return None
@@ -115,6 +121,7 @@ def load_index(project_root: str) -> tuple[faiss.Index, list[Chunk]] | None:
 
 def search(index: faiss.Index, chunks: list[Chunk], query_vec: np.ndarray,
            k: int = 5) -> list[Chunk]:
+    """질의 벡터로 상위 k 개 청크 검색."""
     q = _normalize(query_vec.reshape(1, -1).astype("float32"))
     _, idx = index.search(q, min(k, len(chunks)))
     return [chunks[i] for i in idx[0] if i >= 0]

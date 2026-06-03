@@ -1,5 +1,8 @@
 """
-clone 한 프로젝트(workspace) 관리(프로젝트 스캔, 삭제)
+workspace 디렉토리에 clone 된 Java 프로젝트들의 목록/삭제 관리.
+
+UI(홈 화면)와 워크스페이스(파일 시스템) 사이의 어댑터로,
+project_scanner 의 분석 결과를 ProjectInfo 리스트로 모아 UI 에 전달한다.
 """
 from models.project import ProjectInfo
 from utils.workspace import ensure_workspace, load_metadata, WORKSPACE_DIR

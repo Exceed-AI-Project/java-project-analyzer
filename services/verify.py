@@ -16,16 +16,16 @@ def _exists(p: Path) -> bool:
 
 
 def _build_command(root: Path) -> tuple[list[str] | None, str]:
+    """프로젝트에 맞는 컴파일 명령 (argv 리스트, 도구명) 반환. 없으면 (None, 사유)."""
     is_win = sys.platform.startswith("win")
-    # 1) Gradle 래퍼
+    # 래퍼(gradlew/mvnw)가 있으면 프로젝트 지정 버전이 보장되므로 시스템 도구보다 우선 사용.
     gw = root / ("gradlew.bat" if is_win else "gradlew")
     if _exists(gw):
         return ([str(gw), "compileJava", "-q", "--console=plain"], "gradlew")
-    # 2) Maven 래퍼
     mw = root / ("mvnw.cmd" if is_win else "mvnw")
     if _exists(mw):
         return ([str(mw), "-q", "compile"], "mvnw")
-    # 3) 시스템 gradle / mvn
+    # 시스템 gradle / mvn 으로 폴백.
     import shutil
     if (root / "build.gradle").exists() or (root / "build.gradle.kts").exists():
         if shutil.which("gradle"):

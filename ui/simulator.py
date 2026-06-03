@@ -1,3 +1,9 @@
+"""
+API 시뮬레이터 페이지 — Spring 앱을 띄우지 않고 정적 추적으로 요청 파이프라인 검증.
+
+엔드포인트 선택 → (선택) LLM 페이로드 생성 → 가상 요청 → 제약 위반/호출 경로 출력.
+검출된 위반은 리팩토링 페이지로 직접 전송 가능.
+"""
 import streamlit as st
 import json
 from services.ast_analyzer import build_model

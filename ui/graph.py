@@ -1,3 +1,10 @@
+"""
+의존성 맵 페이지 — vis-network 기반 인터랙티브 그래프.
+
+depgraph 가 만든 노드/엣지를 받아 HTML+JS 로 렌더링한다. Streamlit 의 declare_component
+로 임시 디렉토리에 index.html 을 써두고 노드 클릭 이벤트를 Python 으로 되받아,
+사용자가 클릭한 클래스를 리팩토링 페이지로 보낼 수 있게 한다.
+"""
 import json
 import os
 import tempfile
