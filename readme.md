@@ -52,15 +52,7 @@ Java/Spring Boot 프로젝트를 업로드하면:
 pip install -r requirements.txt
 ```
 
-### 2. 환경 변수 설정
-
-프로젝트 루트에 `.env` 파일 생성:
-
-```env
-OPENAI_API_KEY=sk-...
-```
-
-### 3. (선택) JavaParser 사이드카 빌드
+### 2. (선택) JavaParser 사이드카 빌드
 
 tree-sitter보다 정밀한 심볼 리졸브가 필요할 때 사용합니다.  
 사이드카가 없으면 자동으로 tree-sitter로 폴백하므로 **필수는 아닙니다.**
@@ -73,13 +65,15 @@ mvn -q package
 
 > JDK 17 이상 필요. 다른 경로에 JAR를 뒀다면 `JP_SIDECAR_JAR` 환경변수로 지정하세요.
 
-### 4. 앱 실행
+### 3. 앱 실행
 
 ```bash
 streamlit run app.py
 ```
 
-브라우저에서 `http://localhost:8501` 접속.
+브라우저에서 `http://localhost:8501` 접속 후, **홈 화면의 🔑 OpenAI API 키 설정** 란에 `sk-...` 키를 입력하고 **확인** 버튼을 누릅니다.  
+검증이 통과되면 LLM 기반 기능(리팩토링 제안 · RAG 질의응답)이 활성화됩니다.  
+키를 입력하지 않아도 정적 분석 · API 시뮬레이터 · 의존성 맵은 바로 사용 가능합니다.
 
 ---
 
@@ -176,4 +170,4 @@ java-project-analyzer/
 
 ## 📄 라이선스
 
-본 프로젝트는 학습 목적으로 제작되었습니다.
+본 프로젝트는 학습 및 연구 목적으로 제작되었습니다.
